@@ -1,6 +1,6 @@
 ### Order to Run Scripts ###
 
-1) run_preprocess_RDPclassifier.py
+1) preprocess_RDPclassifier.py
 
 2) create_count_table_RDPclassifier.py
 
