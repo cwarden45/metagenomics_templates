@@ -23,7 +23,8 @@ RDPclassifier: https://sourceforge.net/projects/rdp-classifier/
 |deg_groups|Names of columns in *sample_description_file* to be plotted in QC and differential abundance plots.  Use commas to include multiple variables|
 |treatment_group|Treatment group for primary variable; enter *continuous* for a continuous variable.|
 |Result_Folder|Path to output folder for selected, final results|
-|Reads_Folder|Path to Reads for TopHat Alignment|
+|Reads_Folder|Path to Raw Reads|
+|RDPclassifier_Path|Path to RDPclassifier .jar file|
 |pvalue_method|Method to Calculate P-value.  Can be *edgeR*, *limma-voom*, *DESeq2*,|
 |fdr_method|Method to Calculate FDR.  Can be *BH* (Benjamini and Hochberg),*q-value*, or *q-lfdr*|
 |sample_description_file|Name of Sample Description File|
