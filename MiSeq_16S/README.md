@@ -25,7 +25,7 @@ RDPclassifier: https://sourceforge.net/projects/rdp-classifier/
 |Classification_Folder|Folder for per-sample count and abundance values|
 |Reads_Folder|Path to Raw Reads|
 |RDPclassifier_Path|Path to RDPclassifier .jar file|
-|Java_MEM|Memory allocation for Java (RDPclassifier)|
+|Java_Mem|Memory allocation for Java (RDPclassifier)|
 |Threads|Number of Reads (PEAR)|
 |pvalue_method|Method to Calculate P-value.  Can be *edgeR*, *limma-voom*, *DESeq2*,|
 |fdr_method|Method to Calculate FDR.  Can be *BH* (Benjamini and Hochberg),*q-value*, or *q-lfdr*|
