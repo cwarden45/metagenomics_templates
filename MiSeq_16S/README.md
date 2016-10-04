@@ -1,0 +1,36 @@
+### Order to Run Scripts ###
+
+1) run_preprocess_RDPclassifier.py
+
+2) create_count_table_RDPclassifier.py
+
+3) differential_abundance.py
+
+
+### Dependencies (some optional) ###
+
+PEAR: http://sco.h-its.org/exelixis/web/software/pear/
+
+RDPclassifier: https://sourceforge.net/projects/rdp-classifier/
+
+### Parameter Values ###
+| Parameter | Value|
+|---|---|
+|comp_name | Name of differential abundance comparison (used to name output file)
+|plot_groups | Names of columns in *sample_description_file* to be plotted in QC and differential abundance plots.  Use commas to plot multiple groups|
+|deg_groups|Names of columns in *sample_description_file* to be plotted in QC and differential abundance plots.  Use commas to include multiple variables|
+|treatment_group|Treatment group for primary variable; enter *continuous* for a continuous variable.|
+|Result_Folder|Path to output folder for selected, final results|
+|Reads_Folder|Path to Reads for TopHat Alignment|
+|pvalue_method|Method to Calculate P-value.  Can be *edgeR*, *limma-voom*, *DESeq2*,|
+|fdr_method|Method to Calculate FDR.  Can be *BH* (Benjamini and Hochberg),*q-value*, or *q-lfdr*|
+|sample_description_file|Name of Sample Description File|
+|total_counts_file|Name of File to Contain Total Read Counts|
+|classified_stats_file|Name of File to Contain Classification Rate Information|
+|cluster_distance| Distance metric for dendrogram.  Can be *Euclidean* or *Pearson_Dissimilarity*|
+|abundance_file|Name of File to Contain Percent Abundance Values|
+|counts_file|Name of File to Contain Read Counts Per Genus|
+|abundance_cutoff|Minimum reliable abundance level|
+|minimum_fraction_expressed|Minimum fraction of samples with expression above *abundance_cutoff*|
+|pvalue_cutoff|Maximum p-value to consider a genus as having differential abundance|
+|fdr_cutoff|Maximum FDR to consider a genus as having differential abundance|
