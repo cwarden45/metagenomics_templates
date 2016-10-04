@@ -11,6 +11,8 @@
 
 ### Dependencies (some optional) ###
 
+Biopython: http://biopython.org/wiki/Biopython
+
 PEAR: http://sco.h-its.org/exelixis/web/software/pear/
 
 RDPclassifier: https://sourceforge.net/projects/rdp-classifier/
