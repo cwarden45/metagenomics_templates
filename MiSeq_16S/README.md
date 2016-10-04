@@ -22,6 +22,7 @@ RDPclassifier: https://sourceforge.net/projects/rdp-classifier/
 |plot_groups | Names of columns in *sample_description_file* to be plotted in QC and differential abundance plots.  Use commas to plot multiple groups|
 |deg_groups|Names of columns in *sample_description_file* to be plotted in QC and differential abundance plots.  Use commas to include multiple variables|
 |treatment_group|Treatment group for primary variable; enter *continuous* for a continuous variable.|
+|Classification_Folder|Folder for per-sample count and abundance values|
 |Result_Folder|Path to output folder for selected, final results|
 |Reads_Folder|Path to Raw Reads|
 |RDPclassifier_Path|Path to RDPclassifier .jar file|
