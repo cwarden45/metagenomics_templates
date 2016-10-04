@@ -24,7 +24,7 @@ RDPclassifier: https://sourceforge.net/projects/rdp-classifier/
 |treatment_group|Treatment group for primary variable; enter *continuous* for a continuous variable.|
 |Classification_Folder|Folder for per-sample count and abundance values|
 |Reads_Folder|Path to Raw Reads|
-|RDPclassifier_Path|Path to RDPclassifier .jar file|
+|RDPclassifier_Jar|Full Path to RDPclassifier .jar File|
 |Java_Mem|Memory allocation for Java (RDPclassifier)|
 |Threads|Number of Reads (PEAR)|
 |pvalue_method|Method to Calculate P-value.  Can be *edgeR*, *limma-voom*, *DESeq2*,|
