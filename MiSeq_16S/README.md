@@ -4,7 +4,9 @@
 
 2) create_count_table_RDPclassifier.py
 
-3) differential_abundance.py
+3) qc.R
+
+4) differential_abundance.R
 
 
 ### Dependencies (some optional) ###
