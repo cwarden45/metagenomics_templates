@@ -2,7 +2,7 @@
 
 1) preprocess_RDPclassifier.py
 
-2) create_count_table_RDPclassifier.py
+2) create_count_table_RDPclassifier.R
 
 3) qc.R
 
