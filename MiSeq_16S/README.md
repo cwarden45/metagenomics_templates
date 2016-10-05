@@ -1,3 +1,7 @@
+### Reference Preparation ###
+
+a) RDPclassifier - already trained against RDP reference
+
 ### Order to Run Scripts ###
 
 1) preprocess_RDPclassifier.py
