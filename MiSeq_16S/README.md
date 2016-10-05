@@ -10,11 +10,11 @@ a) RDPclassifier - already trained against RDP reference
 
 3) run_classifier.py
 
-3) create_count_table.py
+4) create_count_table.py
 
-4) qc.R
+5) qc.R
 
-5) differential_abundance.R
+6) differential_abundance.R
 
 
 ### Dependencies (some optional) ###
