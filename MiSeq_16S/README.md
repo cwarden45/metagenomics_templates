@@ -4,7 +4,7 @@ a) RDPclassifier - already trained against RDP reference
 
 ### Order to Run Scripts ###
 
-1) preprocess_RDPclassifier.py
+1) preprocess_RDPclassifier_or_BWA.py
 
 2) merged_length_QC_stats.R (determine minimum and maximium merged length)
 
