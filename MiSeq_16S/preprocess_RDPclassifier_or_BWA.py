@@ -7,10 +7,7 @@ parameterFile = "parameters.txt"
 finishedSamples = []
 
 threads = ""
-mem = ""
-quantFolder = ""
 readsFolder = ""
-RDPclassifier = ""
 
 inHandle = open(parameterFile)
 lines = inHandle.readlines()
@@ -26,37 +23,16 @@ for line in lines:
 
 	if param == "Reads_Folder":
 		readsFolder = value
-	
-	if param == "Classification_Folder":
-		quantFolder = value
-		
-	if param == "Java_Mem":
-		mem = value
 		
 	if param == "Threads":
 		threads = value
 		
-	if param == "RDPclassifier_Jar":
-		RDPclassifier = value
-		
-if (RDPclassifier== "") or (RDPclassifier == "[required]"):
-	print "Need to enter a value for 'RDPclassifier_Jar'!"
+if (readsFolder == "") or (readsFolder == "[required]"):
+	print "Need to enter a value for 'Reads_Folder'!"
 	sys.exit()
 		
 if (threads == "") or (threads == "[required]"):
 	print "Need to enter a value for 'Threads'!"
-	sys.exit()
-	
-if (mem == "") or (mem == "[required]"):
-	print "Need to enter a value for 'Java_Mem'!"
-	sys.exit()
-
-if (readsFolder == "") or (readsFolder == "[required]"):
-	print "Need to enter a value for 'Reads_Folder'!"
-	sys.exit()
-	
-if (quantFolder == "") or (quantFolder == "[required]"):
-	print "Need to enter a value for 'Classification_Folder'!"
 	sys.exit()
 
 mergedReadsFolder = readsFolder + "/PEAR_Merged"
@@ -79,11 +55,6 @@ for file in fileResults:
 		if sample not in finishedSamples:
 			print sample
 			
-			classificationFolder = quantFolder + "/" + sample
-			if not os.path.exists(classificationFolder):
-				command = "mkdir " + classificationFolder
-				os.system(command)
-			
 			read1 = readsFolder + "/" + file
 			read2 = re.sub("R1_001.fastq","R2_001.fastq",read1)
 								
@@ -92,17 +63,15 @@ for file in fileResults:
 			command = "pear -f " + read1 + " -r " + read2 + " -o " + pearPrefix + " -j " + threads
 			os.system(command)
 
-			print "\n\nFASTQ to FASTA (and create read length table)\n\n"
+			print "\n\nCreate read length table\n\n"
 			pearAssembly = pearPrefix + ".assembled.fastq"
-			rdpInput = pearPrefix + ".assembled.fasta"
 			readLengthFile = pearPrefix + ".assembled.read_length"
+			
+			fastq_parser = SeqIO.parse(pearAssembly, "fastq")
 			
 			outHandle = open(readLengthFile, 'w')
 			text = "Merged.Read\tLength\n"
 			outHandle.write(text)
-			
-			fastq_parser = SeqIO.parse(pearAssembly, "fastq")
-			SeqIO.write(fastq_parser, rdpInput, "fasta")
 
 			for fastq in fastq_parser:
 				readName = fastq.id
@@ -110,13 +79,4 @@ for file in fileResults:
 				
 				text = readName + "\t" +str(readLength)+ "\n"
 				outHandle.write(text)
-			
-			command = "gzip " + pearAssembly
-			os.system(command)
-			
-			print "\n\nApply RDPclassifier\n\n"
-			treeOut = classificationFolder + "/PEAR.RDP.fastahier.txt"
-			percentOut = classificationFolder + "/PEAR.RDP.out"
-			command = "java -jar -Xmx" + mem + " " + RDPclassifier + " -o " + percentOut + " -h " + treeOut + " " + rdpInput
-			os.system(command)
 
