@@ -6,11 +6,13 @@ a) RDPclassifier - already trained against RDP reference
 
 1) preprocess_RDPclassifier.py
 
-2) create_count_table_RDPclassifier.R
+2) merged_length_QC_stats.R
 
-3) qc.R
+3) create_count_table_RDPclassifier.R
 
-4) differential_abundance.R
+4) qc.R
+
+5) differential_abundance.R
 
 
 ### Dependencies (some optional) ###
@@ -33,6 +35,7 @@ RDPclassifier: https://sourceforge.net/projects/rdp-classifier/
 |RDPclassifier_Jar|Full Path to RDPclassifier .jar File|
 |Java_Mem|Memory allocation for Java (RDPclassifier)|
 |Threads|Number of Reads (PEAR)|
+|Classifier|Method to assign genus-level classifications.  Can be *RDPclassifier*|
 |pvalue_method|Method to Calculate P-value.  Can be *edgeR*, *limma-voom*, *DESeq2*,|
 |fdr_method|Method to Calculate FDR.  Can be *BH* (Benjamini and Hochberg),*q-value*, or *q-lfdr*|
 |sample_description_file|Name of Sample Description File|
