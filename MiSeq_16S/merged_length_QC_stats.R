@@ -1,7 +1,6 @@
 param.table = read.table("parameters.txt", header=T, sep="\t")
 sample.description.file = as.character(param.table$Value[param.table$Parameter == "sample_description_file"])
 classifier = as.character(param.table$Value[param.table$Parameter == "Classifier"])
-classification.folder = as.character(param.table$Value[param.table$Parameter == "Classification_Folder"])
 read.folder = as.character(param.table$Value[param.table$Parameter == "Reads_Folder"])
 plot.groups = unlist(strsplit(as.character(param.table$Value[param.table$Parameter == "plot_groups"]), split=","))
 
