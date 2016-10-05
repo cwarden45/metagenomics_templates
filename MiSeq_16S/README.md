@@ -6,7 +6,9 @@ a) RDPclassifier - already trained against RDP reference
 
 1) preprocess_RDPclassifier.py
 
-2) merged_length_QC_stats.R
+2) merged_length_QC_stats.R (determine minimum and maximium merged length)
+
+3) run_classifier.py
 
 3) create_count_table.R
 
