@@ -8,7 +8,7 @@ a) RDPclassifier - already trained against RDP reference
 
 2) merged_length_QC_stats.R
 
-3) create_count_table_RDPclassifier.R
+3) create_count_table.R
 
 4) qc.R
 
