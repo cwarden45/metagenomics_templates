@@ -138,9 +138,6 @@ if classifier == "RDPclassifier":
 				minLength = minHash[sample]
 				maxLength = maxHash[sample]
 				
-				command = "gunzip -c " + pearAssembly + ".gz > " + pearAssembly
-				os.system(command)
-				
 				fastq_parser = SeqIO.parse(pearAssembly, "fastq")
 				
 				outHandle = open(rdpInput, 'w')
@@ -162,7 +159,7 @@ if classifier == "RDPclassifier":
 				text = sample + "\t" + str(readCount)+ "\t"+ str(passCount) +"\t" + '{0:.2g}'.format(lengthPercent) + "\n"
 				statHandle.write(text)
 						
-				command = "rm " + pearAssembly
+				command = "gzip " + pearAssembly
 				os.system(command)
 				
 				print "\n\nApply RDPclassifier\n\n"
