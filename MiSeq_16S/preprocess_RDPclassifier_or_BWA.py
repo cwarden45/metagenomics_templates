@@ -13,7 +13,6 @@ inHandle = open(parameterFile)
 lines = inHandle.readlines()
 			
 for line in lines:
-	print line
 	line = re.sub("\n","",line)
 	line = re.sub("\r","",line)
 	
