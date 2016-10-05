@@ -35,7 +35,7 @@ RDPclassifier: https://sourceforge.net/projects/rdp-classifier/
 |RDPclassifier_Jar|Full Path to RDPclassifier .jar File|
 |Java_Mem|Memory allocation for Java (RDPclassifier)|
 |Threads|Number of Reads (PEAR)|
-|Classifier|Method to assign genus-level classifications.  Can be *RDPclassifier*, *mothur*, or *BWA*|
+|Classifier|Method to assign genus-level classifications.  Can be *RDPclassifier*, *mothur*, or *BWA*.  PEAR used for read merging for RDPclassifier or BWA/idxstats assignments.  Mothur used for read merging if mothur is used as classifier.|
 |pvalue_method|Method to Calculate P-value.  Can be *edgeR*, *limma-voom*, *DESeq2*,|
 |fdr_method|Method to Calculate FDR.  Can be *BH* (Benjamini and Hochberg),*q-value*, or *q-lfdr*|
 |sample_description_file|Name of Sample Description File|
