@@ -10,7 +10,7 @@ a) RDPclassifier - already trained against RDP reference
 
 3) run_classifier.py
 
-3) create_count_table.R
+3) create_count_table.py
 
 4) qc.R
 
