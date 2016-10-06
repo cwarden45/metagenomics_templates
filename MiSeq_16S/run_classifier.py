@@ -7,12 +7,14 @@ parameterFile = "parameters.txt"
 finishedSamples = []
 
 mem = ""
+threads = ""
 quantFolder = ""
 readsFolder = ""
 RDPclassifier = ""
 classifier = ""
 description_file = ""
 statsFile = ""
+bwaRef = ""
 
 inHandle = open(parameterFile)
 lines = inHandle.readlines()
@@ -25,6 +27,12 @@ for line in lines:
 	param = lineInfo[0]
 	value = lineInfo[1]
 
+	if param == "Threads":
+		threads = value
+	
+	if param == "BWA_Ref":
+		bwaRef = value
+	
 	if param == "sample_description_file":
 		description_file = value
 	
@@ -141,6 +149,17 @@ if classifier == "RDPclassifier":
 				minLength = minHash[sample]
 				maxLength = maxHash[sample]
 				
+				gunzipFlag = 0
+				if not os.path.isfile(pearAssembly):
+					if os.path.isfile(pearAssembly + ".gz"):
+						command = "gunzip -c " + pearAssembly + ".gz > " + pearAssembly
+						os.system(command)
+						gunzipFlag = 1
+					else:
+						print "Can't find " + pearAssembly + " (or .gz version)."
+						print "Did you run PEAR via preprocess_RDPclassifier_or_BWA.py?"
+						sys.exit()
+				
 				fastq_parser = SeqIO.parse(pearAssembly, "fastq")
 				
 				outHandle = open(rdpInput, 'w')
@@ -162,8 +181,12 @@ if classifier == "RDPclassifier":
 				text = sample + "\t" + str(readCount)+ "\t"+ str(passCount) +"\t" + '{0:.2g}'.format(lengthPercent) + "\n"
 				statHandle.write(text)
 						
-				command = "gzip " + pearAssembly
-				os.system(command)
+				if gunzipFlag == 1:
+					command = "rm " + pearAssembly
+					os.system(command)
+				else:
+					command = "gzip " + pearAssembly
+					os.system(command)
 				
 				print "\n\nApply RDPclassifier\n\n"
 				classificationFolder = quantFolder + "/" + sample
@@ -175,3 +198,179 @@ if classifier == "RDPclassifier":
 				percentOut = classificationFolder + "/PEAR.RDP.out"
 				command = "java -jar -Xmx" + mem + " " + RDPclassifier + " -o " + percentOut + " -h " + treeOut + " " + rdpInput
 				os.system(command)
+				
+elif classifier == "BWA":
+	if (bwaRef== "") or (bwaRef == "[required]"):
+		print "Need to enter a value for 'BWA_Ref'!"
+		sys.exit()
+		
+	if (threads == "") or (threads == "[required]"):
+		print "Need to enter a value for 'Threads'!"
+		sys.exit()
+
+	mergedReadsFolder = readsFolder + "/PEAR_Merged"
+	fileResults = os.listdir(readsFolder)
+	for file in fileResults:
+		resultGZ = re.search("(.*)_L\d{3}_R1_001.fastq.gz$",file)
+		
+		if resultGZ:
+			sample = resultGZ.group(1)
+			if sample not in finishedSamples:
+				print sample
+
+				print "Length-Filter Reads"
+				print "############################################################################"
+				print "NOTE: This is meant more for validation than original quantification"
+				print "\t\tso, length-filter file not provided"
+				print "############################################################################"
+				pearAssembly = mergedReadsFolder + "/" + sample + ".assembled.fastq"
+				bwaRead = mergedReadsFolder + "/" + sample + ".assembled.LENGTH_FILTERED.fastq"
+				minLength = minHash[sample]
+				maxLength = maxHash[sample]
+				
+				gunzipFlag = 0
+				if not os.path.isfile(pearAssembly):
+					if os.path.isfile(pearAssembly + ".gz"):
+						command = "gunzip -c " + pearAssembly + ".gz > " + pearAssembly
+						os.system(command)
+						gunzipFlag = 1
+					else:
+						print "Can't find " + pearAssembly + " (or .gz version)."
+						print "Did you run PEAR via preprocess_RDPclassifier_or_BWA.py?"
+						sys.exit()
+				
+				if not os.path.isfile(bwaRead):
+					def length_filter(records, minLen, maxLen):
+						for rec in records:
+							readLength = len(str(rec.seq))
+							
+							if (readLength >= minLen) & (readLength <= maxLen):
+								yield rec
+					
+					fastq_parser = SeqIO.parse(pearAssembly, "fastq") 
+					SeqIO.write(length_filter(fastq_parser, minLength, maxLength), bwaRead, "fastq")
+				
+				if gunzipFlag == 1:
+					command = "rm " + pearAssembly
+					os.system(command)
+				else:
+					command = "gzip " + pearAssembly
+					os.system(command)
+					
+				print "BWA-Alignment"
+				classificationFolder = quantFolder + "/" + sample
+				if not os.path.exists(classificationFolder):
+					command = "mkdir " + classificationFolder
+					os.system(command)
+
+				alnSam = classificationFolder + "/aligned.sam"
+				command = "/opt/bwa/bwa mem -t "+ str(threads) + " " + bwaRef+ " " + bwaRead + " > " + alnSam
+				os.system(command)
+
+				command = "gzip " + bwaRead
+				os.system(command)
+				
+				alnBam = classificationFolder + "/aligned.bam"
+				command = "/opt/samtools-1.3/samtools view -b -F 2048 " + alnSam + " > " + alnBam
+				os.system(command)
+
+				command = "rm " + alnSam
+				os.system(command)
+
+				sortBam= quantFolder + "/" + sample + ".bam"
+				command = "/opt/samtools-1.3/samtools sort " + alnBam + " -o " + sortBam
+				os.system(command)
+
+				command = "rm " + alnBam
+				os.system(command)
+
+				command = "/opt/samtools-1.3/samtools index " + sortBam
+				os.system(command)
+
+				statsFile = classificationFolder + "/alignment_stats.txt"
+				command = "/opt/samtools-1.3/samtools flagstat " + sortBam + " > " + statsFile
+				os.system(command)
+
+				statsFile = classificationFolder + "/idxstats.txt"
+				command = "samtools idxstats " + sortBam + " > " + statsFile
+				os.system(command)
+
+				nameSam= classificationFolder + "/name.sort.sam"
+				command = "/opt/samtools-1.3/samtools sort -n " + sortBam + " -O sam -o " + nameSam
+				os.system(command)
+				
+				print "Collapse by RDP Genus"
+				#annotation hash
+				inHandle = open(bwaRef)
+				line = inHandle.readline()
+
+				annHash = {}
+
+				while line:
+					line = line.replace("\n","")
+					line = line.replace("\r","")
+
+					headerResult = re.search("^>",line)
+					
+					if headerResult:
+						lineInfo = line.split("\t")
+						id = lineInfo[0]
+						id = re.sub(">","",id)
+						tax = lineInfo[1]
+						tax = re.sub("\"","",tax)
+						
+						bacResult = re.search("Root;Bacteria",tax)
+						
+						if bacResult:
+							annHash[id] = tax
+							
+					line = inHandle.readline()
+
+				inHandle.close()
+
+				#classify reads
+				genusHits = classificationFolder + "/BWA_genus_hits.txt"
+				minMatchLength = 0.8 * minLength
+				
+				outHandle = open(genusHits, "w")
+				text = "Read\tHit\tHit.Length\tTax.String\n"
+				outHandle.write(text)
+
+				inHandle = open(nameSam)
+				line = inHandle.readline()
+
+				totalCount = 0
+				passCount = 0
+
+				while line:
+					line = line.replace("\n","")
+					line = line.replace("\r","")
+
+					commentResult = re.search("^@",line)
+					
+					if not commentResult:
+						totalCount += 1
+						lineInfo = line.split("\t")
+						read = lineInfo[0]
+						hit = lineInfo[2]
+						cigar = lineInfo[5]
+						tax = "NA"
+									
+						matchSum = 0
+						for m in re.finditer("(\d+)M",cigar):
+							matchSum += int(m.group(1))
+						if matchSum > minMatchLength:
+							if hit in annHash:
+								tax = annHash[hit]
+							passCount += 1
+						
+						text = read + "\t" + hit + "\t" + str(matchSum) + "\t" + tax + "\n"
+						outHandle.write(text)
+						
+					line = inHandle.readline()
+				
+				command = "rm " + nameSam
+				os.system(command)
+else:
+	print "classifier must be 'RDPclassifier', 'mothur', or 'BWA'"
+	sys.exit()
