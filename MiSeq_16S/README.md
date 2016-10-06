@@ -8,17 +8,17 @@ c) BWA - prepare reference sequences using functions to re-train RDP classifier,
 
 ### Order to Run Scripts ###
 
-1) preprocess_RDPclassifier_or_BWA.py or preprocess_mothur.py
+1) `preprocess_RDPclassifier_or_BWA.p`y or `preprocess_mothur.py`
 
-2) merged_length_QC_stats.R (determine minimum and maximium merged length)
+2)` merged_length_QC_stats.R` (determine minimum and maximium merged length)
 
-3) run_classifier.py
+3) `run_classifier.py`
 
-4) create_count_table.py
+4) `create_count_table.py`
 
-5) qc.R
+5) `qc.R`
 
-6) differential_abundance.R
+6) `differential_abundance.R`
 
 
 ### Dependencies (some optional) ###
