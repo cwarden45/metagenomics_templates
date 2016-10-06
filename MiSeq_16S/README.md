@@ -49,6 +49,7 @@ samtools: http://samtools.sourceforge.net/
 |Classifier|Method to assign genus-level classifications.  Can be *RDPclassifier*, *mothur*, or *BWA*.  PEAR used for read merging for RDPclassifier or BWA/idxstats assignments.  Mothur used for read merging if mothur is used as classifier.|
 |RDPclassifier_Jar|Full Path to RDPclassifier .jar File|
 |mothur_ref|Path to mothur-formatted reference sequence|
+|mothur_tax|Path to mothur-formatted taxonomy file|
 |BWA_Ref|Path to indexed BWA reference|
 |pvalue_method|Method to Calculate P-value.  Can be *edgeR*, *limma-voom*, *DESeq2*,|
 |fdr_method|Method to Calculate FDR.  Can be *BH* (Benjamini and Hochberg),*q-value*, or *q-lfdr*|
