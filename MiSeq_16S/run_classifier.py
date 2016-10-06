@@ -105,9 +105,12 @@ for line in lines:
 		minHash[key] = min
 		maxHash[key] = max
 
-statHandle = open(statsFile, 'w')
-text = "Sample\tTotal.Reads\tLength.Filtered.Reads\tPercent.Length.Filtered\n"
-statHandle.write(text)
+if os.path.isfile(statsFile):
+	statHandle = open(statsFile, 'a')
+else:
+	statHandle = open(statsFile, 'w')
+	text = "Sample\tTotal.Reads\tLength.Filtered.Reads\tPercent.Length.Filtered\n"
+	statHandle.write(text)
 		
 if classifier == "RDPclassifier":
 	if (RDPclassifier== "") or (RDPclassifier == "[required]"):
