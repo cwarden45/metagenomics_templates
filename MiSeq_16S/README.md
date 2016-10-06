@@ -8,7 +8,7 @@ c) BWA - prepare reference sequences using functions to re-train RDP classifier,
 
 ### Order to Run Scripts ###
 
-1) `preprocess_RDPclassifier_or_BWA.p`y or `preprocess_mothur.py`
+1) `preprocess_RDPclassifier_or_BWA.py` or `preprocess_mothur.py`
 
 2)` merged_length_QC_stats.R` (determine minimum and maximium merged length)
 
