@@ -2,6 +2,10 @@
 
 a) RDPclassifier - already trained against RDP reference
 
+b) mothur - indices are automaticaly produced, but you need to provide mothur-formatted reference sequences.  See the [MiSeq SOP](http://www.mothur.org/wiki/MiSeq_SOP) for more details.
+
+c) BWA/samtools - prepare reference sequences using functions to re-train RDP classifier, then prepare BWA index.  See `filter_seqs.py` for example.
+
 ### Order to Run Scripts ###
 
 1) preprocess_RDPclassifier_or_BWA.py
@@ -24,6 +28,10 @@ Biopython: http://biopython.org/wiki/Biopython
 PEAR: http://sco.h-its.org/exelixis/web/software/pear/
 
 RDPclassifier: https://sourceforge.net/projects/rdp-classifier/
+
+mothur:
+
+samtools:
 
 ### Parameter Values ###
 | Parameter | Value|
