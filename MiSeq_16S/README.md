@@ -2,9 +2,9 @@
 
 a) RDPclassifier - already trained against RDP reference
 
-b) mothur - indices are automaticaly produced, but you need to provide mothur-formatted reference sequences.  See the [MiSeq SOP](http://www.mothur.org/wiki/MiSeq_SOP) for more details.
+b) mothur - indices are automaticaly produced, but you need to provide mothur-formatted reference sequences.  See the [MiSeq SOP](http://www.mothur.org/wiki/MiSeq_SOP) for more details, which provides links to download SILVA and RDP formatted databases.
 
-c) BWA/samtools - prepare reference sequences using functions to re-train RDP classifier, then prepare BWA index.  See `filter_seqs.py` for example.
+c) BWA/samtools - prepare reference sequences using functions to re-train RDP classifier, then prepare BWA index.  See `filter_seqs.py` for example.  FASTA sequences with taxonomy information in header are available from [RDPclassifier sourceforge page](https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/).
 
 ### Order to Run Scripts ###
 
@@ -29,9 +29,11 @@ PEAR: http://sco.h-its.org/exelixis/web/software/pear/
 
 RDPclassifier: https://sourceforge.net/projects/rdp-classifier/
 
-mothur:
+mothur: http://www.mothur.org/
 
-samtools:
+BWA: http://bio-bwa.sourceforge.net/
+
+samtools: http://samtools.sourceforge.net/
 
 ### Parameter Values ###
 | Parameter | Value|
