@@ -3,7 +3,7 @@ import re
 import os
 from Bio import SeqIO
 
-parameterFile = "parameters_mothur.txt"
+parameterFile = "parameters.txt"
 finishedSamples = []
 
 threads = ""
@@ -91,34 +91,34 @@ for file in fileResults:
 				command = "gzip " + read2
 				os.system(command)
 				
-			scrap = re.sub(".gz$","",read1) + ".scrap.contigs.fasta"
+			scrap = re.sub(".fastq$","",read1) + ".scrap.contigs.fasta"
 			command = "rm " + scrap
 			os.system(command)
-			scrap = re.sub(".gz$","",read1) + ".scrap.contigs.qual"
+			scrap = re.sub(".fastq$","",read1) + ".scrap.contigs.qual"
 			command = "rm " + scrap
 			os.system(command)
 			
-			contigFA = re.sub(".gz$","",read1) + ".trim.contigs.fasta"
+			contigFA = re.sub(".fastq$","",read1) + ".trim.contigs.fasta"
 			command = "mv " + contigFA + " " + mergedReadsFolder + "/" 
 			os.system(command)
 			
-			contigQual = re.sub(".gz$","",read1) + ".trim.contigs.qual"
+			contigQual = re.sub(".fastq$","",read1) + ".trim.contigs.qual"
 			command = "mv " + contigQual + " " + mergedReadsFolder + "/" 
 			os.system(command)
 	
-			contigReport = re.sub(".gz$","",read1) + ".trim.contigs.report"
+			contigReport = re.sub(".fastq$","",read1) + ".contigs.report"
 			command = "mv " + contigReport + " " + mergedReadsFolder + "/" 
 			os.system(command)
 	
 			print "\n\nRemove Degenerate Nucleotide Reads\n\n"
-			contigFA = mergedReadsFolder + "/" + re.sub(".gz$","",file)+ ".trim.contigs.fasta"
+			contigFA = mergedReadsFolder + "/" + re.sub(".fastq.gz$","",file)+ ".trim.contigs.fasta"
 			command = "mothur \"#screen.seqs(fasta="+contigFA+", processors="+threads+", maxambig=0)\""
 			os.system(command)
 			
 			print "\n\nCreate Read Length File\n\n"
 			#still do this to get quality-filtered read lengths
-			filteredContigFA = re.sub(".contigs.fasta$",".good.fasta",contigFA)
-			readLengthFile = mergedReadsFolder + "/" + re.sub(".gz$","",file) + ".trim.contigs.good.read_length"
+			filteredContigFA = re.sub(".fasta$",".good.fasta",contigFA)
+			readLengthFile = mergedReadsFolder + "/" + re.sub(".fastq.gz$","",file) + ".trim.contigs.good.read_length"
 			
 			fasta_parser = SeqIO.parse(filteredContigFA, "fasta")
 			
