@@ -46,7 +46,7 @@ samtools: http://samtools.sourceforge.net/
 |Reads_Folder|Path to Raw Reads|
 |Java_Mem|Memory allocation for Java (RDPclassifier)|
 |Threads|Number of Reads (PEAR,BWA,mothur)|
-|Classifier|Method to assign genus-level classifications.  Can be *RDPclassifier*, *mothur*, or *BWA*.  PEAR used for read merging for RDPclassifier or BWA/idxstats assignments.  Mothur used for read merging if mothur is used as classifier.|
+|Classifier|Method to assign genus-level classifications.  Can be *RDPclassifier*, *mothur*, or *BWA*.  PEAR used for read merging for RDPclassifier or BWA assignments.  Mothur used for read merging if mothur is used as classifier.|
 |RDPclassifier_Jar|Full Path to RDPclassifier .jar File|
 |mothur_ref|Path to mothur-formatted reference sequence|
 |mothur_tax|Path to mothur-formatted taxonomy file|
