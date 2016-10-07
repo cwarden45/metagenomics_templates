@@ -4,7 +4,7 @@ classifier = as.character(param.table$Value[param.table$Parameter == "Classifier
 read.folder = as.character(param.table$Value[param.table$Parameter == "Reads_Folder"])
 plot.groups = unlist(strsplit(as.character(param.table$Value[param.table$Parameter == "plot_groups"]), split=","))
 
-fixed.color.palatte = c("green","orange","purple","cyan","pink","maroon","yellow","grey","red","blue","black",colors())
+fixed.color.palatte = c("green","orange","purple","cyan","pink","maroon","yellow","grey","red","blue","black","darkgreen","thistle1","tan","orchid1",colors())
 xrange = c(0,600)
 yrange = c(0,1)
 
