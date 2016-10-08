@@ -4,7 +4,7 @@ a) RDPclassifier - already trained against RDP reference
 
 b) mothur - indices are automaticaly produced, but you need to provide mothur-formatted reference sequences.  See the [MiSeq SOP](http://www.mothur.org/wiki/MiSeq_SOP) for more details, which provides links to download SILVA and RDP formatted databases.
 
-NOTE: The templates provided work with mothur version 1.38.0.  Some earlier versions of mothur provide classifications in a different format, and are therefore incompatible with these templates.  This particular version mothur is available in this (Docker image)[https://hub.docker.com/r/cwarden45/metagenomics/].
+**NOTE**: The templates provided work with mothur version 1.38.0.  Some earlier versions of mothur provide classifications in a different format, and are therefore incompatible with these templates.  This particular version mothur is available in this (Docker image)[https://hub.docker.com/r/cwarden45/metagenomics/].
 
 c) BWA - prepare reference sequences using functions to re-train RDP classifier, then prepare BWA index.  See `RDP_BWA_filter_seqs.py` for example.  FASTA sequences with taxonomy information in header are available from [RDPclassifier sourceforge page](https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/).
 
