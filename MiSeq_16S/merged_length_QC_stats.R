@@ -147,7 +147,6 @@ if ((classifier == "RDPclassifier")|(classifier == "BWA")){
 							length.lower5=length.lower5, length.lower.quantile=length.lower.quantile, length.med=length.med,
 							length.mean=length.mean, length.upper.quantile=length.upper.quantile, length.upper5=length.upper5)
 	write.table(output.table,"mothur_contig_length_quantiles.txt",sep="\t", row.names=F, quote=F)
-}
 } else{
 	stop(paste("Need to write code for classifier: ",classifier,sep=""))
 }
