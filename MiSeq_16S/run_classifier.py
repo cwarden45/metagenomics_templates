@@ -401,7 +401,7 @@ elif classifier == "mothur":
 	mergedReadsFolder = readsFolder + "/mothur_merged"
 	fileResults = os.listdir(readsFolder)
 	for file in fileResults:
-		resultGZ = re.search("(.*).fastq.gz$",file)
+		resultGZ = re.search("(.*_L\d{3}_R1_001).fastq.gz$",file)
 		
 		if resultGZ:
 			sample = resultGZ.group(1)
