@@ -42,13 +42,13 @@ if not os.path.exists(mergedReadsFolder):
 fileResults = os.listdir(readsFolder)
 for file in fileResults:
 	#early .gz creation doesn't make sense if you're only running mothur, but I've left this since .gz file would already be created from RDP pipeline
-	result = re.search("(.*)_L\d{3}_R1_001.fastq$",file)
+	result = re.search("(.*_L\d{3}_R1_001).fastq$",file)
 	if result:
 		command = "gzip " + file
 		os.system(command)
 		file = file + ".gz"
 	
-	resultGZ = re.search("(.*)_L\d{3}_R1_001.fastq.gz$",file)
+	resultGZ = re.search("(.*_L\d{3}_R1_001).fastq.gz$",file)
 	
 	if resultGZ:
 		sample = resultGZ.group(1)
