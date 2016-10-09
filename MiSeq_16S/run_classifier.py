@@ -15,6 +15,8 @@ classifier = ""
 description_file = ""
 statsFile = ""
 bwaRef = ""
+mothurRef = ""
+mothurTax = ""
 
 inHandle = open(parameterFile)
 lines = inHandle.readlines()
@@ -30,9 +32,15 @@ for line in lines:
 	if param == "Threads":
 		threads = value
 	
+	if param == "mothur_ref":
+		mothurRef = value
+
+	if param == "mothur_tax":
+		mothurTax = value
+		
 	if param == "BWA_Ref":
 		bwaRef = value
-	
+		
 	if param == "sample_description_file":
 		description_file = value
 	
@@ -80,11 +88,13 @@ if (quantFolder == "") or (quantFolder == "[required]"):
 #define min / max length per target / sample
 minHash = {}
 maxHash = {}
+shortNameHash = {}
 
 lineCount = 0
 sampleIndex = -1
 minIndex = -1
 maxIndex = -1
+nameIndex = -1
 
 inHandle = open(description_file)
 lines = inHandle.readlines()
@@ -105,11 +115,15 @@ for line in lines:
 				maxIndex = i
 			elif lineInfo[i] == "sampleID":
 				sampleIndex = i
+			elif lineInfo[i] == "userID":
+				nameIndex = i
 	else:
 		key = lineInfo[sampleIndex]
 		min = int(lineInfo[minIndex])
 		max = int(lineInfo[maxIndex])
+		name = lineInfo[nameIndex]
 		
+		shortNameHash[key] = name
 		minHash[key] = min
 		maxHash[key] = max
 
@@ -370,6 +384,80 @@ elif classifier == "BWA":
 					line = inHandle.readline()
 				
 				command = "rm " + nameSam
+				os.system(command)
+elif classifier == "mothur":
+	if (mothurRef== "") or (mothurRef == "[required]"):
+		print "Need to enter a value for 'mothur_ref'!"
+		sys.exit()
+		
+	if (mothurTax == "") or (mothurTax == "[required]"):
+		print "Need to enter a value for 'mothur_tax'!"
+		sys.exit()
+
+	if (threads == "") or (threads == "[required]"):
+		print "Need to enter a value for 'Threads'!"
+		sys.exit()
+		
+	mergedReadsFolder = readsFolder + "/mothur_merged"
+	fileResults = os.listdir(readsFolder)
+	for file in fileResults:
+		resultGZ = re.search("(.*).fastq.gz$",file)
+		
+		if resultGZ:
+			sample = resultGZ.group(1)
+			outName = shortNameHash[sample]
+			if sample not in finishedSamples:
+				print sample
+				
+				readCount = 0
+				passCount = 0
+				
+				print "\n\nLength-Filter mothur-screened FASTA\n\n"
+				mothurContigs = mergedReadsFolder + "/" + sample + ".trim.contigs.good.fasta"
+				mothurInput = mergedReadsFolder + "/" + outName + ".trim.contigs.good.LENGTH_FILTERED.fasta"
+				
+				minLength = minHash[sample]
+				maxLength = maxHash[sample]
+				
+				fastq_parser = SeqIO.parse(mothurContigs, "fasta")
+				outHandle = open(mothurInput, 'w')
+
+				for fastq in fastq_parser:
+					readName = fastq.id
+					readLength = len(str(fastq.seq))
+					
+					readCount += 1
+					
+					if (readLength >= minLength) & (readLength <= maxLength):
+						passCount += 1
+						
+						text = ">" + readName + "\n"
+						text = text + str(fastq.seq)+ "\n"
+						outHandle.write(text)
+						
+				lengthPercent = 100 * float(passCount) / float(readCount)
+				text = sample + "\t" + str(readCount)+ "\t"+ str(passCount) +"\t" + '{0:.2g}'.format(lengthPercent) + "\n"
+				statHandle.write(text)
+				
+				print "\n\nApply mothur classifier\n\n"
+				classificationFolder = quantFolder + "/" + outName
+				if not os.path.exists(classificationFolder):
+					command = "mkdir " + classificationFolder
+					os.system(command)
+
+				command = "mothur \"#classify.seqs(fasta="+mothurInput+", reference="+mothurRef+", processors="+threads+", taxonomy="+mothurTax+", cutoff=80)\""
+				os.system(command)
+				
+				taxOut = re.sub(".fasta",".rdp.wang.tax.summary",mothurInput)
+				command = "mv " + taxOut + " " + classificationFolder + "/"
+				os.system(command)
+
+				taxOut = re.sub(".fasta",".rdp.wang.taxonomy",mothurInput)
+				command = "mv " + taxOut + " " + classificationFolder + "/"
+				os.system(command)
+
+				taxOut = re.sub(".fasta",".rdp.wang.flip.accnos",mothurInput)
+				command = "mv " + taxOut + " " + classificationFolder + "/"
 				os.system(command)
 else:
 	print "classifier must be 'RDPclassifier', 'mothur', or 'BWA'"
