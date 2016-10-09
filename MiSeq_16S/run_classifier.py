@@ -406,7 +406,7 @@ elif classifier == "mothur":
 		if resultGZ:
 			sample = resultGZ.group(1)
 			outName = shortNameHash[sample]
-			if sample not in finishedSamples:
+			if (sample not in finishedSamples) and (outName not in finishedSamples):
 				print sample
 				
 				readCount = 0
