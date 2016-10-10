@@ -60,7 +60,7 @@ samtools: http://samtools.sourceforge.net/
 |sample_description_file|Name of Sample Description File|
 |total_counts_file|Name of File to Contain Total Read Counts|
 |classified_stats_file|Name of File to Contain Classification Rate Information|
-|cluster_distance| Distance metric for dendrogram.  Can be *Euclidean* or *Pearson_Dissimilarity*|
+|cluster_distance| Distance metric for dendrogram.  Can be *Euclidean*, *Pearson_Dissimilarity*, *Spearman_Dissimilarity*, or *Kendall_Dissimilarity*|
 |abundance_file|Name of File to Contain Percent Abundance Values|
 |counts_file|Name of File to Contain Read Counts Per Genus|
 |abundance_cutoff|Minimum reliable abundance level|
