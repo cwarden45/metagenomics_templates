@@ -53,6 +53,7 @@ limma: http://bioconductor.org/packages/release/bioc/html/limma.html
 |Classification_Folder|Folder for per-sample count and abundance values|
 |Reads_Folder|Path to Raw Reads|
 |Raw_Code_PC|Path to output folder for most results|
+|Result_Folder|Path to output folder for selected, final results|
 |Java_Mem|Memory allocation for Java (used by RDPclassifier)|
 |Threads|Number of Reads (used by PEAR, BWA, mothur)|
 |Classifier|Method to assign genus-level classifications.  Can be *RDPclassifier*, *mothur*, or *BWA*.  PEAR used for read merging for RDPclassifier or BWA assignments.  Mothur used for read merging if mothur is used as classifier.|
