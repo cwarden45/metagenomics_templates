@@ -41,6 +41,8 @@ samtools: http://samtools.sourceforge.net/
 
 metagenomeSeq: https://bioconductor.org/packages/release/bioc/html/metagenomeSeq.html
 
+limma: http://bioconductor.org/packages/release/bioc/html/limma.html
+
 ### Parameter Values ###
 | Parameter | Value|
 |---|---|
