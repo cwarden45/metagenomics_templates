@@ -17,7 +17,7 @@ calc.gene.cor = function(arr, indep.var)
 library(gplots)
 fixed.color.palatte = c("green","orange","purple","cyan","pink","maroon","yellow","grey","red","blue","black","darkgreen","thistle1","tan","orchid1",colors())
 
-param.table = read.table("parameters_mothur.txt", header=T, sep="\t")
+param.table = read.table("parameters.txt", header=T, sep="\t")
 comp.name=as.character(param.table$Value[param.table$Parameter == "comp_name"])
 min.abundance= as.numeric(as.character(param.table$Value[param.table$Parameter == "abundance_cutoff"]))
 pvalue.cutoff = as.numeric(as.character(param.table$Value[param.table$Parameter == "pvalue_cutoff"]))
