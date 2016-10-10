@@ -257,7 +257,10 @@ def abundanceTable(inputArr, sampleIDs, outputfile, normMethod):
 		for ID in abDict:
 			if ID in tempDict:
 				percentAb = tempDict[ID]
-				abDict[ID] =  abDict[ID] + "\t" + '{0:.2g}'.format(percentAb)
+				if normMethod == "raw_counts":
+					abDict[ID] =  abDict[ID] + "\t" + str(percentAb)
+				else:
+					abDict[ID] =  abDict[ID] + "\t" + '{0:.2g}'.format(percentAb)
 			else:
 				abDict[ID] = abDict[ID] + "\tNA"
 	
