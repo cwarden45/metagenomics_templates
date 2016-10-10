@@ -73,5 +73,7 @@ limma: http://bioconductor.org/packages/release/bioc/html/limma.html
 |minimum_fraction_expressed|Minimum fraction of samples with expression above *abundance_cutoff*|
 |pvalue_cutoff|Maximum p-value to consider a genus as having differential abundance|
 |fdr_cutoff|Maximum FDR to consider a genus as having differential abundance|
+|sec_pvalue_cutoff|If comparing two gene lists, p-value threshold for list you want to filter out|
+|sec_fdr_cutoff|If comparing two gene lists, FDR threshold for list you want to filter out|
 |interaction| Method for comparing an interaction of two variables.  Can be *model*, *filter-overlap*, or *no*|
 |secondary_trt| If comparing two gene lists, this is treatment group for the list that you want to filter out; enter *continuous* for a continuous variable and a correlation will be provided instead of a fold-change value (also converts second variable from factor to numeric, even if interaction is set to *no*)|
