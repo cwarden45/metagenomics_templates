@@ -23,7 +23,7 @@ userID = as.character(sample.table$userID)
 
 ab.table = read.table(classification.file, sep="\t", header=T)
 assignment = ab.table$Assignment
-ab.mat = ab.table[,2:ncol(ab.table)]
+ab.mat = ab.table[,match(userID, names(ab.table))]
 ab.mean = apply(ab.mat, 1, mean, na.rm = T)
 ab.mat= ab.mat[order(ab.mean, decreasing = TRUE),]
 ab.mat[is.na(ab.mat)] = 0
