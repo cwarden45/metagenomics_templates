@@ -459,6 +459,16 @@ elif classifier == "mothur":
 				taxOut = re.sub(".fasta",".rdp.wang.flip.accnos",mothurInput)
 				command = "mv " + taxOut + " " + classificationFolder + "/"
 				os.system(command)
+				
+				#cleanup log files
+				fileResults = os.listdir(".")
+				for file in fileResults:
+					result = re.search(".logfile$",file)
+					
+					if result:
+						print "deleting " + file
+						command = "rm " + file
+						os.system(command)
 else:
 	print "classifier must be 'RDPclassifier', 'mothur', or 'BWA'"
 	sys.exit()
