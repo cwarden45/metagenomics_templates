@@ -70,7 +70,7 @@ limma: http://bioconductor.org/packages/release/bioc/html/limma.html
 |abundance_file|Name of File to Contain Percent Abundance Values|
 |counts_file|Name of File to Contain Read Counts Per Genus|
 |abundance_cutoff|Minimum reliable abundance level|
-|minimum_fraction_expressed|Minimum fraction of samples with expression above *abundance_cutoff*|
+|minimum_fraction_expressed|Minimum fraction of samples with expression above *abundance_cutoff*.  Maximum abundance must be above this level to be considered for differential abundance analysis.|
 |pvalue_cutoff|Maximum p-value to consider a genus as having differential abundance|
 |fdr_cutoff|Maximum FDR to consider a genus as having differential abundance|
 |sec_pvalue_cutoff|If comparing two gene lists, p-value threshold for list you want to filter out|
