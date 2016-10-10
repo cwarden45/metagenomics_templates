@@ -249,8 +249,11 @@ def abundanceTable(inputArr, sampleIDs, outputfile, normMethod):
 					print "4th param in 'abundanceTable' function must be 'classified_ab','total_ab',or'raw_counts'"
 					sys.exit()
 				freq = lineInfo[abIndex]
-			
-				tempDict[className] = float(freq)
+				
+				if normMethod == "raw_counts":
+					tempDict[className] = freq
+				else:
+					tempDict[className] = float(freq)
 				
 			line = inHandle.readline()
 	
