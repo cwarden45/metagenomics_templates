@@ -3,6 +3,15 @@ avgGroupExpression <- function (geneExpr, groups) {
 	return(avg.expr)
 }#end def avgGroupExpression
 
+ratio2fc <- function(value)
+{
+	if(value >= 1){
+		return(value)
+	} else {
+		return (-1/value)
+	}
+}#end def ratio2fc
+
 calc.gene.cor = function(arr, indep.var)
 {	
 	na.count = length(arr[!is.na(arr)])
@@ -17,7 +26,7 @@ calc.gene.cor = function(arr, indep.var)
 library(gplots)
 fixed.color.palatte = c("green","orange","purple","cyan","pink","maroon","yellow","grey","red","blue","black","darkgreen","thistle1","tan","orchid1",colors())
 
-param.table = read.table("parameters.txt", header=T, sep="\t")
+param.table = read.table("parameters_mothur.txt", header=T, sep="\t")
 comp.name=as.character(param.table$Value[param.table$Parameter == "comp_name"])
 min.abundance= as.numeric(as.character(param.table$Value[param.table$Parameter == "abundance_cutoff"]))
 pvalue.cutoff = as.numeric(as.character(param.table$Value[param.table$Parameter == "pvalue_cutoff"]))
@@ -195,8 +204,7 @@ if((interaction.flag == "no") & (trt.group != "continuous")){
 	cntl.expr = contrast.ab[,paste("avg.abundance", sub("-",".",groupIDs[groupIDs != trt.group]), sep=".")]
 
 	fc = trt.expr / cntl.expr
-	fc[fc < 1] = -1/fc[fc < 1]
-	fc = round(fc, digits = 2)
+	fc = round(sapply(fc, ratio2fc), digits=2)
 	fc.table = data.frame(fold.change=fc)
 } else if ((interaction.flag == "model")|(interaction.flag == "filter-overlap")){
 	if ((trt.group == "continuous")&(trt.group2 == "continuous")){
@@ -219,8 +227,7 @@ if((interaction.flag == "no") & (trt.group != "continuous")){
 		sec.cntl.expr = sec.contrast.ab[,paste("avg.abundance", sub("-",".",sec.groups[sec.groups != trt.group2]), sep=".")]
 
 		sec.fc = sec.trt.expr  / sec.cntl.expr
-		sec.fc[sec.fc < 1] = -1/sec.fc[sec.fc < 1]
-		sec.fc = round(sec.fc, digits = 2)
+		sec.fc = round(sapply(sec.fc, ratio2fc), digits=2)
 		
 		fc.table = data.frame(prim.cor=gene.cor, sec.fc = sec.fc)
 	} else if (trt.group2 == "continuous"){	
@@ -238,8 +245,7 @@ if((interaction.flag == "no") & (trt.group != "continuous")){
 		prim.cntl.expr = prim.contrast.ab[,paste("avg.abundance", sub("-",".",prim.cntl), sep=".")]
 
 		prim.fc = prim.trt.expr  /  prim.cntl.expr
-		prim.fc[prim.fc < 1] = -1/prim.fc[prim.fc < 1]
-		prim.fc = round(prim.fc, digits = 2)
+		prim.fc = round(sapply(prim.fc, ratio2fc), digits=2)
 		
 		sec.contrast.grp = as.numeric(var2)
 		gene.cor2 = apply(deg.ab, 1, calc.gene.cor, indep.var=sec.contrast.grp)
@@ -254,8 +260,7 @@ if((interaction.flag == "no") & (trt.group != "continuous")){
 		prim.cntl.expr = contrast.ab[,paste("avg.abundance", sub("-",".",prim.cntl), sep=".")]
 
 		prim.fc = prim.trt.expr  /  prim.cntl.expr
-		prim.fc[prim.fc < 1] = -1/prim.fc[prim.fc < 1]
-		prim.fc = round(prim.fc, digits = 2)
+		prim.fc = round(sapply(prim.fc, ratio2fc), digits=2)
 
 		sec.groups = as.character(levels(as.factor(sample.description.table[,deg.groups[2]])))
 		sec.trt = paste(trt.group, sec.groups[sec.groups != trt.group2], sep=":")
@@ -264,8 +269,7 @@ if((interaction.flag == "no") & (trt.group != "continuous")){
 		sec.cntl.expr = contrast.ab[,paste("avg.abundance", sub("-",".",sec.cntl), sep=".")]
 
 		sec.fc = sec.trt.expr  / sec.cntl.expr
-		sec.fc[sec.fc < 1] = -1/sec.fc[sec.fc < 1]
-		sec.fc = round(sec.fc, digits = 2)
+		sec.fc = round(sapply(sec.fc, ratio2fc), digits=2)
 
 		#don't provide in table, but use for direction assignment
 		overall.fc = prim.fc - sec.fc
@@ -520,8 +524,8 @@ if(rep.check == 1){
 }#end else
 
 if (trt.group == "continuous"){
-	upID = "Increased Expression"
-	downID = "Decreased Expression"
+	upID = "Increased Abundance"
+	downID = "Decreased Abundance"
 } else {
 	upID = paste(trt.group," Up",sep="")
 	downID = paste(trt.group," Down",sep="")	
@@ -593,7 +597,7 @@ if (interaction.flag == "no"){
 			status[(overall.fc <= 0) & (test.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = downID
 			pvalue.table = data.frame(p.value = test.pvalue, FDR = fdr)
 		} else {
-			upID = "Variable Expression"
+			upID = "Variable Abundance"
 			status[(test.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = upID
 			pvalue.table = data.frame(p.value = test.pvalue, FDR = fdr)
 		}#end else
