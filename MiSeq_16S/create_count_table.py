@@ -3,11 +3,77 @@ import re
 import os
 from Bio import SeqIO
 
-parameterFile = "parameters.txt"
+parameterFile = "parameters_mothur.txt"
 finishedSamples = []
 
+def mothurClassStats(assignmentFile, outputfile, threshold, taxLevel):
+	totalReadCount = 0
+	classHash = {}
+	classCounts = 0
+	
+	bacteriaSkippedLines = 0
+	
+	inHandle = open(assignmentFile)
+	line = inHandle.readline()
+	
+	while line:
+		line = line.replace("\n","")
+		line = line.replace("\r","")
+	
+		lineInfo = line.split("\t")
+		readName = lineInfo[0]
+		totalReadCount += 1
+		assignmentText = lineInfo[1]
+		assignmentInfo = assignmentText.split(";")
+	
+		if (assignmentInfo[0] == "Bacteria(100)"):
+			infoIndex = -1
+			if taxLevel == "order":
+				infoIndex = 3
+			elif taxLevel == "family":
+				infoIndex = 4
+			elif taxLevel == "genus":
+				infoIndex = 5
+			else:
+				print "Need to define indices for " + taxLevel
+				sys.exit()
+			
+			if assignmentInfo[infoIndex] != "unclassified":
+				reResult = re.search("(.*)\((\d+)\)",assignmentInfo[infoIndex])
+				if reResult:
+					className = reResult.group(1)
+					emptyResult = re.search("_unclassified$",className)
+					
+					classScore = int(reResult.group(2))
+					rescaleScore = float(classScore)/100
+
+					if (classScore >= threshold) and (not emptyResult):
+						classCounts += 1
+						if className in classHash:
+							classHash[className] = classHash[className] + 1
+						else:
+							classHash[className] = 1
+				else:
+					print "problem with " + assignmentInfo[infoIndex]
+					sys.exit()
+		line = inHandle.readline()	
+
+	outHandle = open(outputfile, "w")
+	text = "Assignment\tRead.Num\tTotal.Percent\tClassified.Percent\n"
+	outHandle.write(text)
+	
+	for assignment in classHash.keys():
+		readCount = classHash[assignment]
+		totalPercent = 100 * float(readCount)/float(totalReadCount)
+		classPercent = 100 * float(readCount)/float(classCounts)
+		
+		text = assignment + "\t" + str(readCount) + "\t" + '{0:.6g}'.format(totalPercent) + "\t" + '{0:.6g}'.format(classPercent) + "\n"
+		outHandle.write(text)
+	
+	percentClass = 100 * float(classCounts) / float(totalReadCount)
+	return([str(totalReadCount),str(classCounts), '{0:.3g}'.format(percentClass)])
+
 def rdpClassStats(assignmentFile, outputfile, threshold, taxLevel):
-	#class counts
 	totalReadCount = 0
 	classHash = {}
 	classCounts = 0
@@ -75,6 +141,135 @@ def rdpClassStats(assignmentFile, outputfile, threshold, taxLevel):
 		
 	return([str(totalReadCount),str(classCounts), '{0:.3g}'.format(percentClass)])
 
+def bwaClassStats(assignmentFile, outputfile):
+	totalReadCount = 0
+	classifiedCounts = 0
+	taxHash = {}
+
+	inHandle = open(assignmentFile)
+	line = inHandle.readline()
+
+	lineCount = 0
+
+	while line:
+		line = line.replace("\n","")
+		line = line.replace("\r","")
+
+		lineCount += 1
+		
+		if lineCount  > 1:
+			totalReadCount +=1
+			lineInfo = line.split("\t")
+			tax = lineInfo[3]
+			
+			if tax != "NA":
+				classifiedCounts += 1
+				
+				if tax in taxHash:
+					taxHash[tax] = taxHash[tax] + 1
+				else:
+					taxHash[tax] = 1
+			
+		line = inHandle.readline()
+
+	totalReadCount = lineCount - 1
+	outHandle = open(outputfile, "w")
+	text = "Assignment\tRead.Num\tTotal.Percent\tClassified.Percent\n"
+	outHandle.write(text)
+
+	for tax in taxHash:
+		readCount = taxHash[tax]
+		totalPercent = 100 * float(readCount)/float(totalReadCount)
+		classPercent = 100 * float(readCount)/float(classifiedCounts)
+			
+		text = tax + "\t" + str(readCount) + "\t" + '{0:.2g}'.format(totalPercent) + "\t" + '{0:.2g}'.format(classPercent) + "\n"
+		outHandle.write(text)
+		
+	percentClass = 100 * float(classifiedCounts) / float(totalReadCount)
+	return([str(totalReadCount),str(classifiedCounts), '{0:.3g}'.format(percentClass)])
+
+def abundanceTable(inputArr, sampleIDs, outputfile, normMethod):
+	abDict={}
+
+	for i in xrange(0, len(sampleIDs)):
+		sample = sampleIDs[i]
+		inputfile = inputArr[i]
+
+		inHandle = open(inputfile)
+		line = inHandle.readline()
+	
+		lineCount = 0
+		
+		while line:	
+			lineCount += 1
+			if lineCount > 1:
+				line = line.replace("\n","")
+				line = line.replace("\r","")
+	
+				lineInfo = line.split("\t")
+
+				className = lineInfo[0]
+			
+				abDict[className] = ""
+				
+			line = inHandle.readline()
+	
+	for i in xrange(0, len(sampleIDs)):
+		sample = sampleIDs[i]
+		inputfile = inputArr[i]
+		print sample
+	
+		inHandle = open(inputfile)
+		line = inHandle.readline()
+	
+		classNum = 0
+		totalCounts = 0
+		
+		lineCount = 0
+		
+		tempDict = {}
+		
+		while line:	
+			lineCount += 1
+			if lineCount > 1:
+				line = line.replace("\n","")
+				line = line.replace("\r","")
+	
+				lineInfo = line.split("\t")
+
+				className = lineInfo[0]
+				abIndex = -1
+				if normMethod == "classified_ab":
+					abIndex = 3
+				elif normMethod == "total_ab":
+					abIndex = 2
+				elif normMethod == "raw_counts":
+					abIndex = 1
+				else:
+					print "4th param in 'abundanceTable' function must be 'classified_ab','total_ab',or'raw_counts'"
+					sys.exit()
+				freq = lineInfo[abIndex]
+			
+				tempDict[className] = float(freq)
+				
+			line = inHandle.readline()
+	
+		for ID in abDict:
+			if ID in tempDict:
+				percentAb = tempDict[ID]
+				abDict[ID] =  abDict[ID] + "\t" + '{0:.2g}'.format(percentAb)
+			else:
+				abDict[ID] = abDict[ID] + "\tNA"
+	
+	outHandle = open(outputfile, "w")
+	text = "Assignment\t" + "\t".join(sampleIDs) + "\n";
+	outHandle.write(text)
+	
+	for ID in abDict:
+		text = ID + abDict[ID] + "\n"
+		outHandle.write(text)
+
+	
 mem = ""
 quantFolder = ""
 classifier = ""
@@ -144,10 +339,14 @@ if (quantFolder == "") or (quantFolder == "[required]"):
 
 #define min / max length per target / sample
 shortNameHash = {}
+longNameHash = {}
 
 lineCount = 0
 sampleIndex = -1
 nameIndex = -1
+
+processedIDs = []
+processedFiles = []
 
 inHandle = open(description_file)
 lines = inHandle.readlines()
@@ -171,6 +370,7 @@ for line in lines:
 		name = lineInfo[nameIndex]
 		
 		shortNameHash[key] = name
+		longNameHash[name] = key
 
 if os.path.isfile(statsFile):
 	statHandle = open(statsFile, 'a')
@@ -191,11 +391,55 @@ if classifier == "RDPclassifier":
 			print sample
 			
 			summaryFile = quantFolder + "/" + sample + "_PEAR_RDP_genus_abundance_count.txt"
+			processedIDs.append(sample)
+			processedFiles.append(summaryFile)
 			
 			text = folder + "\t" + sample + "\t"
 			classStats = rdpClassStats(assignmentFile, summaryFile, 0.8,"genus")
 			text = text + "\t".join(classStats)
 			text = text + "\t" + summaryFile + "\n"
 			statHandle.write(text)
+elif classifier == "BWA":
+	fileResults = os.listdir(quantFolder)
+	
+	for folder in fileResults:	
+		classificationFolder = quantFolder + "/" + folder
+		assignmentFile = classificationFolder  + "/BWA_genus_hits.txt"
+		
+		if os.path.exists(assignmentFile):
+			sample = shortNameHash[folder]
+			print sample
+			
+			summaryFile = quantFolder + "/" + sample + "_PEAR_BWA_abundance_count.txt"
+			processedIDs.append(sample)
+			processedFiles.append(summaryFile)
+			
+			text = folder + "\t" + sample + "\t"
+			classStats = bwaClassStats(assignmentFile, summaryFile)
+			text = text + "\t".join(classStats)
+			text = text + "\t" + summaryFile + "\n"
+			statHandle.write(text)
+elif classifier == "mothur":
+	fileResults = os.listdir(quantFolder)
+	
+	for folder in fileResults:
+		sample = folder
+		classificationFolder = quantFolder + "/" + folder
+		assignmentFile = classificationFolder  + "/"+sample+".trim.contigs.good.LENGTH_FILTERED.rdp.wang.taxonomy"
+		
+		if os.path.exists(assignmentFile):
+			print sample
+			
+			summaryFile = quantFolder + "/" + sample + "_mothur_genus_abundance_count.txt"
+			processedIDs.append(sample)
+			processedFiles.append(summaryFile)
+			
+			longName = longNameHash[sample]
+			text = longName + "\t" + sample + "\t"
+			classStats = mothurClassStats(assignmentFile, summaryFile, 0.8,"genus")
+			text = text + "\t".join(classStats)
+			text = text + "\t" + summaryFile + "\n"
+			statHandle.write(text)
 
-print "Need to write code for combined counts and abundance files"
+abundanceTable(processedFiles, processedIDs, combined_counts_file, "raw_counts")
+abundanceTable(processedFiles, processedIDs, combined_abundance_file, "total_ab")
