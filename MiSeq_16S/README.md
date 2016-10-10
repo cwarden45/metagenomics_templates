@@ -57,7 +57,7 @@ metagenomeSeq: https://bioconductor.org/packages/release/bioc/html/metagenomeSeq
 |mothur_ref|Path to mothur-formatted reference sequence|
 |mothur_tax|Path to mothur-formatted taxonomy file|
 |BWA_Ref|Path to indexed BWA reference|
-|pvalue_method|Method to Calculate P-value.  Can be *limma-ab*, *limma-counts*, *metagenomeSeq* (*limma-ab* uses abundance percentages, *limma-counts* uses limma-voom)|
+|pvalue_method|Method to Calculate P-value.  Can be *limma-ab*, *limma-counts*, *metagenomeSeq*, or *PERMANOVA* (*limma-ab* uses abundance percentages, *limma-counts* uses limma-voom)|
 |fdr_method|Method to Calculate FDR.  Can be *BH* (Benjamini and Hochberg),*q-value*, or *q-lfdr*|
 |sample_description_file|Name of Sample Description File|
 |total_counts_file|Name of File to Contain Total Read Counts|
