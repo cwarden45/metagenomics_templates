@@ -67,7 +67,7 @@ def mothurClassStats(assignmentFile, outputfile, threshold, taxLevel):
 		totalPercent = 100 * float(readCount)/float(totalReadCount)
 		classPercent = 100 * float(readCount)/float(classCounts)
 		
-		text = assignment + "\t" + str(readCount) + "\t" + '{0:.6g}'.format(totalPercent) + "\t" + '{0:.6g}'.format(classPercent) + "%\n"
+		text = assignment + "\t" + str(readCount) + "\t" + '{0:.6g}'.format(totalPercent) + "\t" + '{0:.6g}'.format(classPercent) + "\n"
 		outHandle.write(text)
 	
 	percentClass = 100 * float(classCounts) / float(totalReadCount)
@@ -136,7 +136,7 @@ def rdpClassStats(assignmentFile, outputfile, threshold, taxLevel):
 		totalPercent = 100 * float(readCount)/float(totalReadCount)
 		classPercent = 100 * float(readCount)/float(classCounts)
 		
-		text = assignment + "\t" + str(readCount) + "\t" + '{0:.6g}'.format(totalPercent) + "\t" + '{0:.6g}'.format(classPercent) + "%\n"
+		text = assignment + "\t" + str(readCount) + "\t" + '{0:.6g}'.format(totalPercent) + "\t" + '{0:.6g}'.format(classPercent) + "\n"
 		outHandle.write(text)
 		
 	return([str(totalReadCount),str(classCounts), '{0:.3g}'.format(percentClass)])
@@ -182,7 +182,7 @@ def bwaClassStats(assignmentFile, outputfile):
 		totalPercent = 100 * float(readCount)/float(totalReadCount)
 		classPercent = 100 * float(readCount)/float(classifiedCounts)
 			
-		text = tax + "\t" + str(readCount) + "\t" + '{0:.2g}'.format(totalPercent) + "\t" + '{0:.2g}'.format(classPercent) + "%\n"
+		text = tax + "\t" + str(readCount) + "\t" + '{0:.2g}'.format(totalPercent) + "\t" + '{0:.2g}'.format(classPercent) + "\n"
 		outHandle.write(text)
 		
 	percentClass = 100 * float(classifiedCounts) / float(totalReadCount)
@@ -378,12 +378,9 @@ for line in lines:
 		shortNameHash[key] = name
 		longNameHash[name] = key
 
-if os.path.isfile(statsFile):
-	statHandle = open(statsFile, 'a')
-else:
-	statHandle = open(statsFile, 'w')
-	text = "SampleID\tuserID\tQC.Reads\tClassified.Reads\tPercent.Classified\tSample.Summary.File\n"
-	statHandle.write(text)
+statHandle = open(statsFile, 'w')
+text = "SampleID\tuserID\tQC.Reads\tClassified.Reads\tPercent.Classified\tSample.Summary.File\n"
+statHandle.write(text)
 		
 if classifier == "RDPclassifier":
 	fileResults = os.listdir(quantFolder)
@@ -403,7 +400,7 @@ if classifier == "RDPclassifier":
 			text = folder + "\t" + sample + "\t"
 			classStats = rdpClassStats(assignmentFile, summaryFile, 0.8,"genus")
 			text = text + "\t".join(classStats)
-			text = text + "\t" + summaryFile + "\n"
+			text = text + "%\t" + summaryFile + "\n"
 			statHandle.write(text)
 elif classifier == "BWA":
 	fileResults = os.listdir(quantFolder)
@@ -423,7 +420,7 @@ elif classifier == "BWA":
 			text = folder + "\t" + sample + "\t"
 			classStats = bwaClassStats(assignmentFile, summaryFile)
 			text = text + "\t".join(classStats)
-			text = text + "\t" + summaryFile + "\n"
+			text = text + "%\t" + summaryFile + "\n"
 			statHandle.write(text)
 elif classifier == "mothur":
 	fileResults = os.listdir(quantFolder)
@@ -444,7 +441,7 @@ elif classifier == "mothur":
 			text = longName + "\t" + sample + "\t"
 			classStats = mothurClassStats(assignmentFile, summaryFile, 0.8,"genus")
 			text = text + "\t".join(classStats)
-			text = text + "\t" + summaryFile + "\n"
+			text = text + "%\t" + summaryFile + "\n"
 			statHandle.write(text)
 
 abundanceTable(processedFiles, processedIDs, combined_counts_file, "raw_counts")
