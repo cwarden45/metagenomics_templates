@@ -67,7 +67,7 @@ def mothurClassStats(assignmentFile, outputfile, threshold, taxLevel):
 		totalPercent = 100 * float(readCount)/float(totalReadCount)
 		classPercent = 100 * float(readCount)/float(classCounts)
 		
-		text = assignment + "\t" + str(readCount) + "\t" + '{0:.6g}'.format(totalPercent) + "\t" + '{0:.6g}'.format(classPercent) + "\n"
+		text = assignment + "\t" + str(readCount) + "\t" + '{0:.6g}'.format(totalPercent) + "\t" + '{0:.6g}'.format(classPercent) + "%\n"
 		outHandle.write(text)
 	
 	percentClass = 100 * float(classCounts) / float(totalReadCount)
@@ -136,7 +136,7 @@ def rdpClassStats(assignmentFile, outputfile, threshold, taxLevel):
 		totalPercent = 100 * float(readCount)/float(totalReadCount)
 		classPercent = 100 * float(readCount)/float(classCounts)
 		
-		text = assignment + "\t" + str(readCount) + "\t" + '{0:.6g}'.format(totalPercent) + "\t" + '{0:.6g}'.format(classPercent) + "\n"
+		text = assignment + "\t" + str(readCount) + "\t" + '{0:.6g}'.format(totalPercent) + "\t" + '{0:.6g}'.format(classPercent) + "%\n"
 		outHandle.write(text)
 		
 	return([str(totalReadCount),str(classCounts), '{0:.3g}'.format(percentClass)])
@@ -182,7 +182,7 @@ def bwaClassStats(assignmentFile, outputfile):
 		totalPercent = 100 * float(readCount)/float(totalReadCount)
 		classPercent = 100 * float(readCount)/float(classifiedCounts)
 			
-		text = tax + "\t" + str(readCount) + "\t" + '{0:.2g}'.format(totalPercent) + "\t" + '{0:.2g}'.format(classPercent) + "\n"
+		text = tax + "\t" + str(readCount) + "\t" + '{0:.2g}'.format(totalPercent) + "\t" + '{0:.2g}'.format(classPercent) + "%\n"
 		outHandle.write(text)
 		
 	percentClass = 100 * float(classifiedCounts) / float(totalReadCount)
