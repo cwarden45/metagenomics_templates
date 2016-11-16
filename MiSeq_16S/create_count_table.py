@@ -3,7 +3,7 @@ import re
 import os
 from Bio import SeqIO
 
-parameterFile = "parameters_mothur.txt"
+parameterFile = "parameters.txt"
 finishedSamples = []
 
 def mothurClassStats(assignmentFile, outputfile, threshold, taxLevel):
