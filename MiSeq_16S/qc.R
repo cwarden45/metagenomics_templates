@@ -11,7 +11,7 @@ colLab <- function(n, labelColors, clusMember) {
    n 
 }
 
-param.table = read.table("parameters_mothur.txt", header=T, sep="\t")
+param.table = read.table("parameters.txt", header=T, sep="\t")
 sample.description.file = as.character(param.table$Value[param.table$Parameter == "sample_description_file"])
 classification.file = as.character(param.table$Value[param.table$Parameter == "abundance_file"])
 classifier = as.character(param.table$Value[param.table$Parameter == "Classifier"])
