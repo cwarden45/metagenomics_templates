@@ -7,6 +7,8 @@ Raw_Code_PC	[required]
 RDP_Classification_Folder	[required]
 Classification_Folder	[required]
 Reads_Folder	[required]
+Raw_CCS_Folder	[required]
+Min_CCS_Cycles	5
 Result_Folder	[required]
 Classifier	mothur
 RDPclassifier_Jar	/path/to/rdp_classifier_2.12/dist/classifier.jar
