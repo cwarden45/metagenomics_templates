@@ -56,7 +56,8 @@ limma: http://bioconductor.org/packages/release/bioc/html/limma.html
 |deg_groups|Names of columns in *sample_description_file* to be plotted in QC and differential abundance plots.  Use commas to include multiple variables|
 |treatment_group|Treatment group for primary variable; enter *continuous* for a continuous variable.|
 |Classification_Folder|Folder for per-sample count and abundance values|
-|Reads_Folder|Path to Raw Reads|
+|Reads_Folder|Path to CCS FASTQ Files|
+|Raw_CCS_Folder|Path to CCS Unaligned BAM|
 |Raw_Code_PC|Path to output folder for most results|
 |Result_Folder|Path to output folder for selected, final results|
 |Java_Mem|Memory allocation for Java (used by RDPclassifier)|
