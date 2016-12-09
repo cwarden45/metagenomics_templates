@@ -61,6 +61,7 @@ limma: http://bioconductor.org/packages/release/bioc/html/limma.html
 |Classification_Folder|Folder for per-sample count and abundance values|
 |Reads_Folder|Path to CCS FASTQ Files|
 |Raw_CCS_Folder|Path to CCS Unaligned BAM|
+|Min_CCS_Cycles|Minimum cycles to define CCS read (recommend at least 5, default in `ccs` is 3)|
 |Raw_Code_PC|Path to output folder for most results|
 |Result_Folder|Path to output folder for selected, final results|
 |Java_Mem|Memory allocation for Java (used by RDPclassifier)|
