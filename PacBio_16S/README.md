@@ -12,7 +12,8 @@
 
 ### Order to Run Scripts ###
 
-1) 'create_CCS_and_FASTQ.py'
+1) `create_CCS_and_FASTQ.py`
+
 PacBio dependencies available in this [Docker image](https://hub.docker.com/r/cwarden45/general-pacbio/).
 
 1) `preprocess_RDPclassifier_or_BWA.py` or `preprocess_mothur.py`
