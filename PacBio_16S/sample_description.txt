@@ -1,1 +1,1 @@
-sampleID	seqID	userID	Target	Min.Length	Max.Length	Group	UnalignedBam
+sampleID	baxH5prefix	Target	Min.Length	Max.Length	Group
