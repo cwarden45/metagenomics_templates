@@ -14,6 +14,8 @@
 
 1) `single_run_bax2bam.py` or `demultiplex.py`
 
+PacBio dependencies available in this [Docker image](https://hub.docker.com/r/cwarden45/general-pacbio/).
+
 2) `create_CCS_and_FASTQ.py`
 
 PacBio dependencies available in this [Docker image](https://hub.docker.com/r/cwarden45/general-pacbio/).
