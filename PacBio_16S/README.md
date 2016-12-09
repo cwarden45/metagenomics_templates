@@ -12,6 +12,9 @@
 
 ### Order to Run Scripts ###
 
+1) 'create_CCS_and_FASTQ.py'
+PacBio dependencies available in this [Docker image](https://hub.docker.com/r/cwarden45/general-pacbio/).
+
 1) `preprocess_RDPclassifier_or_BWA.py` or `preprocess_mothur.py`
 
 2)` merged_length_QC_stats.R` (one way to determine minimum and maximium merged length)
