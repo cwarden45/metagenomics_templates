@@ -1,6 +1,7 @@
 import sys
 import re
 import os
+from Bio import SeqIO
 
 parameterFile = "parameters.txt"
 finishedSamples = []
@@ -85,6 +86,15 @@ while line:
 		command = "/opt/samtools-1.3/samtools bam2fq " + ccsBam + " > " + fastq
 		os.system(command)		
 
+		fasta = fastqFolder + "/" + sample + ".ccs."+str(minCycles)+"x.fasta"
+		outHandle = open(fasta,"w")
+		fastq_sequences = SeqIO.parse(open(fastq),'fastq')
+		for fasta in fastq_sequences:
+			readName = fasta.id
+			readSequence = str(fasta.seq)
+			
+			text = ">" + readName + "\n" + readSequence + "\n"
+			outHandle.write(text)
 	else:
 		print "Problem with line: " + line
 		print "Does your sample description file have headers 'sampleID'?"
