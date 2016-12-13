@@ -52,7 +52,6 @@ if (sample_description_file == "") or (sample_description_file == "[required]"):
 	sys.exit()
 	
 sampleIDindex = -1
-baxH5index = -1
 
 inHandle = open(sample_description_file)
 line = inHandle.readline()
