@@ -12,7 +12,7 @@
 
 ### Order to Run Scripts ###
 
-1) `full_run_bax2bam.py` or `demultiplex.py`
+1) `full_run_bax2bam.py`
 
 PacBio dependencies available in this [Docker image](https://hub.docker.com/r/cwarden45/general-pacbio/).
 
