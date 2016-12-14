@@ -15,10 +15,13 @@ scraps = intermediateFolder+"/"+sampleID+".scraps.bam"
 minLength = 1400
 maxLength = 1600
 
+#barcode can be in either subread or scrap, but this script could help add additional reads if otherwise using the ends of the subread for barcode assignments
+
 #you can also get barcode information from an SMRT portal aligned .bam file (with RG:Z tag),
 #...but you still need to define CCS read
 
-#barcode can be in either subread or scrap, but this script could help add additional reads if otherwise using the ends of the subread for barcode assignments
+#barcode mappings are also in .bc.h5 files in the data folder for SMRT Portal (if you have access to raw files),
+#but, if you have SMRT Portal access, you might want to try defining 5x CCS reads with barcodes using the RS_ReadsOfInsert protocol (although it seems to take longer than command-line 'ccs')
 
 def demultiplex(ccsFQ, scrapsBam, fastaPrefix, minLength, maxLength):
 	scrapsSam = re.sub(".bam",".sam",scrapsBam)
