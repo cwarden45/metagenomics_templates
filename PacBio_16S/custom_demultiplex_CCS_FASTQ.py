@@ -17,6 +17,8 @@ maxLength = 1600
 
 #barcode can be in either subread or scrap, but this script could help add additional reads if otherwise using the ends of the subread for barcode assignments
 
+#different barcodes can also be used by modifying code, with sequences from https://github.com/PacificBiosciences/Bioinformatics-Training/blob/master/barcoding/pacbio_384_barcodes.fasta
+
 #you can also get barcode information from an SMRT portal aligned .bam file (with RG:Z tag),
 #...but you still need to define CCS read
 
