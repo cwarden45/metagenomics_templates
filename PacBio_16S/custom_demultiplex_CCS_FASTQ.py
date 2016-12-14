@@ -58,33 +58,48 @@ def demultiplex(ccsFQ, scrapsBam, fastaPrefix, minLength, maxLength):
 				
 			seq = lineInfo[9]
 			
+			seq1 = Seq(barcodeHash["lbc1"])
+			revcom =  str(seq.reverse_complement())
 			resultB1 = re.search(barcodeHash["lbc1"],seq)
+			resultB1b = re.search(revcom,seq)
+			
+			seq2 = Seq(barcodeHash["lbc2"])
+			revcom =  str(seq.reverse_complement())
 			resultB2 = re.search(barcodeHash["lbc2"],seq)
+			resultB2b = re.search(revcom,seq)
+			
+			seq3 = Seq(barcodeHash["lbc3"])
+			revcom =  str(seq.reverse_complement())
 			resultB3 = re.search(barcodeHash["lbc3"],seq)
+			resultB3b = re.search(revcom,seq)
+			
+			seq4 = Seq(barcodeHash["lbc4"])
+			revcom =  str(seq.reverse_complement())
 			resultB4 = re.search(barcodeHash["lbc4"],seq)
+			resultB4b = re.search(revcom,seq)
 
-			if resultB1 and (not resultB2) and (not resultB3) and (not resultB4):
+			if (resultB1 or resultB1b) and (not resultB2) and (not resultB3) and (not resultB4) and (not resultB2b) and (not resultB3b) and (not resultB4b):
 				if (zmw in zmwHash):
 					if zmwHash[zmw] != "lbc1":
 						badZmwHash[zmw]=1
 				else:
 					zmwHash[zmw] = "lbc1"
 
-			if resultB2 and (not resultB1) and (not resultB3) and (not resultB4):
+			if (resultB2 or result2b) and (not resultB1) and (not resultB3) and (not resultB4) and (not resultB1b) and (not resultB3b) and (not resultB4b):
 				if (zmw in zmwHash):
 					if zmwHash[zmw] != "lbc2":
 						badZmwHash[zmw]=1
 				else:
 					zmwHash[zmw] = "lbc2"
 				
-			if resultB3 and (not resultB2) and (not resultB1) and (not resultB4):
+			if (resultB3 or resultB3b) and (not resultB2) and (not resultB1) and (not resultB4)and (not resultB2b) and (not resultB1b) and (not resultB4b):
 				if (zmw in zmwHash):
 					if zmwHash[zmw] != "lbc3":
 						badZmwHash[zmw]=1
 				else:
 					zmwHash[zmw] = "lbc3"
 				
-			if resultB4 and (not resultB2) and (not resultB3) and (not resultB1):
+			if (resultB4 or resultB4b) and (not resultB2) and (not resultB3) and (not resultB1) and (not resultB2b) and (not resultB3b) and (not resultB1b):
 				if (zmw in zmwHash):
 					if zmwHash[zmw] != "lbc4":
 						badZmwHash[zmw]=1
