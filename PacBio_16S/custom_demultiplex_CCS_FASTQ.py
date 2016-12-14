@@ -58,10 +58,10 @@ def demultiplex(ccsFQ, scrapsBam, fastaPrefix, minLength, maxLength):
 				
 			seq = lineInfo[9]
 			
-			resultB1 = re.search("TCAGACGATGCGTCAT",seq)
-			resultB2 = re.search("CTATACATGACTCTGC",seq)
-			resultB3 = re.search("TACTAGAGTAGCACTC",seq)
-			resultB4 = re.search("TGTGTATCAGTACATG",seq)
+			resultB1 = re.search(barcodeHash["lbc1"],seq)
+			resultB2 = re.search(barcodeHash["lbc2"],seq)
+			resultB3 = re.search(barcodeHash["lbc3"],seq)
+			resultB4 = re.search(barcodeHash["lbc4"],seq)
 
 			if resultB1 and (not resultB2) and (not resultB3) and (not resultB4):
 				if (zmw in zmwHash):
