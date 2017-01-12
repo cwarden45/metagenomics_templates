@@ -12,27 +12,23 @@
 
 ### Order to Run Scripts ###
 
-1) `full_run_bax2bam.py`
+1) `full_run_bax2bam.py` + `create_CCS_and_FASTQ.py` (or `run_pbbarcode_template.py`)
 
 PacBio dependencies available in this [Docker image](https://hub.docker.com/r/cwarden45/general-pacbio/).
 
-2) `create_CCS_and_FASTQ.py`
+2) `preprocess_RDPclassifier_or_BWA.py` or `preprocess_mothur.py`
 
-PacBio dependencies available in this [Docker image](https://hub.docker.com/r/cwarden45/general-pacbio/).
-
-3) `preprocess_RDPclassifier_or_BWA.py` or `preprocess_mothur.py`
-
-4)` merged_length_QC_stats.R` (one way to determine minimum and maximium merged length)
+3)` merged_length_QC_stats.R` (one way to determine minimum and maximium merged length)
 
 -If using full-length sequences, I would recommend setting Min.Length=1450 and Max.Length=1550
 
-5) `run_classifier.py`
+4) `run_classifier.py`
 
-6) `create_count_table.py`
+5) `create_count_table.py`
 
-7) `qc.R`
+6) `qc.R`
 
-8) `differential_abundance.R`
+7) `differential_abundance.R`
 
 
 ### Dependencies (some optional) ###
