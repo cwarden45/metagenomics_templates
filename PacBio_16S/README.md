@@ -18,7 +18,7 @@ PacBio dependencies available in this [Docker image](https://hub.docker.com/r/cw
 
 2) `preprocess_RDPclassifier_or_BWA.py` or `preprocess_mothur.py`
 
-3)` merged_length_QC_stats.R` (one way to determine minimum and maximium merged length)
+3) `length_QC_stats.R` (one way to determine minimum and maximium merged length)
 
 -If using full-length sequences, I would recommend setting Min.Length=1450 and Max.Length=1550
 
