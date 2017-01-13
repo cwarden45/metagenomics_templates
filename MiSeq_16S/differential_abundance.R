@@ -789,7 +789,7 @@ if(length(deg.assignments) > 1){
 		}
 		rownames(temp.ab) = sample.label
 		
-		heatmap.file <- paste(comp.name,"_differential_abundance_",pvalue.method,"_fdr_",fdr.cutoff,"_pval_",pvalue.cutoff,".png",sep="")
+		heatmap.file = paste(comp.name,"_",pvalue.method,"_differential_abundance_fdr_",fdr.cutoff,"_pval_",pvalue.cutoff,".png",sep="")
 		heatmap.file = gsub(":",".",heatmap.file)
 		png(file = heatmap.file)
 		heatmap.2(temp.ab, col=colorpanel(33, low="blue", mid="black", high="red"), density.info="none", key=TRUE,
