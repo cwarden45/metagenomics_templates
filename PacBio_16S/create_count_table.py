@@ -396,7 +396,7 @@ elif classifier == "mothur":
 	for folder in fileResults:
 		sample = folder
 		classificationFolder = quantFolder + "/" + folder
-		assignmentFile = classificationFolder  + "/"+sample+".ccs."+str(minCycles)+"x.good.LENGTH_FILTERED.rdp.wang.taxonomy"
+		assignmentFile = classificationFolder  + "/"+sample+".ccs."+str(minCycles)+"x.LENGTH_FILTERED.good.rdp.wang.taxonomy"
 		
 		if os.path.exists(assignmentFile):
 			print sample
