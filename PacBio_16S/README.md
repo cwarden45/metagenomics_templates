@@ -53,6 +53,10 @@ metagenomeSeq: https://bioconductor.org/packages/release/bioc/html/metagenomeSeq
 
 limma: http://bioconductor.org/packages/release/bioc/html/limma.html
 
+heatmap.3: https://github.com/obigriffith/biostar-tutorials/blob/master/Heatmaps/heatmap.3.R
+
+heatmap.3 example: https://www.biostars.org/p/18211/
+
 ### Parameter Values ###
 | Parameter | Value|
 |---|---|
