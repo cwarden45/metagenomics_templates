@@ -8,8 +8,8 @@ plot.groups = unlist(strsplit(as.character(param.table$Value[param.table$Paramet
 
 fixed.color.palatte = c("green","orange","purple","cyan","pink","maroon","yellow","grey","red","blue","black","darkgreen","thistle1","tan","orchid1",colors())
 
-xrange = c(1300,1700)
-yrange = c(0,0.3)
+xrange = c(1400,1600)
+yrange = c(0,0.2)
 
 sample.table = read.table(sample.description.file, sep="\t", header=T)
 sampleID = as.character(sample.table$sampleID)
