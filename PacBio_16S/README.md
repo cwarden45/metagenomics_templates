@@ -33,6 +33,12 @@ PacBio dependencies available in this [Docker image](https://hub.docker.com/r/cw
 
 ### Dependencies (some optional) ###
 
+pbccs: https://github.com/PacificBiosciences/pbccs
+
+ConsensusTools: https://github.com/PacificBiosciences/SMRT-Analysis/wiki/ConsensusTools-v2.3.0-Documentation
+
+pbbarcode: https://github.com/PacificBiosciences/pbbarcode
+
 Biopython: http://biopython.org/wiki/Biopython
 
 RDPclassifier: https://sourceforge.net/projects/rdp-classifier/
