@@ -35,8 +35,6 @@ PacBio dependencies available in this [Docker image](https://hub.docker.com/r/cw
 
 Biopython: http://biopython.org/wiki/Biopython
 
-PEAR: http://sco.h-its.org/exelixis/web/software/pear/
-
 RDPclassifier: https://sourceforge.net/projects/rdp-classifier/
 
 mothur: http://www.mothur.org/
