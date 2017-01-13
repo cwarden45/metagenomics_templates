@@ -561,8 +561,8 @@ if (interaction.flag == "no"){
 		status[(gene.cor <= 0) & (test.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = downID
 		pvalue.table = data.frame(p.value = test.pvalue, FDR = fdr)
 	} else{
-		status[(fc >= 0) & (test.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = upID
-		status[(fc <= 0) & (test.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = downID
+		status[(fc >= fc.cutoff) & (test.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = upID
+		status[(fc <= -fc.cutoff) & (test.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = downID
 		pvalue.table = data.frame(p.value = test.pvalue, FDR = fdr)
 	}#end else
 } else{
@@ -595,8 +595,8 @@ if (interaction.flag == "no"){
 			status[(gene.cor.int <= 0) & (test.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = downID
 			pvalue.table = data.frame(p.value = test.pvalue, FDR = fdr)
 		} else if ((trt.group != "continuous")&(trt.group2 != "continuous")){
-			status[(overall.fc >= 0) & (test.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = upID
-			status[(overall.fc <= 0) & (test.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = downID
+			status[(overall.fc >= fc.cutoff) & (test.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = upID
+			status[(overall.fc <= -fc.cutoff) & (test.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = downID
 			pvalue.table = data.frame(p.value = test.pvalue, FDR = fdr)
 		} else {
 			upID = "Variable Abundance"
@@ -630,8 +630,8 @@ if (interaction.flag == "no"){
 			pass1.status[(gene.cor >= 0) & (prim.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = paste(trt.group," Up",sep="")
 			pass1.status[(gene.cor <= 0) & (prim.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = paste(trt.group," Down",sep="")
 		} else{
-			pass1.status[(prim.fc >= 0) & (prim.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = paste(trt.group," Up",sep="")
-			pass1.status[(prim.fc <= 0) & (prim.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = paste(trt.group," Down",sep="")
+			pass1.status[(prim.fc >= fc.cutoff) & (prim.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = paste(trt.group," Up",sep="")
+			pass1.status[(prim.fc <= -fc.cutoff) & (prim.pvalue <= pvalue.cutoff) & (fdr <= fdr.cutoff)] = paste(trt.group," Down",sep="")
 		}#end else
 
 		print(paste("Primary Up-Regulated: ",length(pass1.status[pass1.status == paste(trt.group," Up",sep="")]),sep=""))
@@ -664,8 +664,8 @@ if (interaction.flag == "no"){
 			pass2.status[(gene.cor2 >= 0) & (sec.pvalue <= pvalue.cutoff2) & (sec.fdr <= fdr.cutoff2)] = paste(trt.group," Up",sep="")
 			pass2.status[(gene.cor2 <= 0) & (sec.pvalue <= pvalue.cutoff2) & (sec.fdr <= fdr.cutoff2)] = paste(trt.group," Down",sep="")
 		} else{
-			pass2.status[(sec.fc >= 0) & (sec.pvalue <= pvalue.cutoff2) & (sec.fdr <= fdr.cutoff2)] = paste(trt.group," Up",sep="")
-			pass2.status[(sec.fc <= 0) & (sec.pvalue <= pvalue.cutoff2) & (sec.fdr <= fdr.cutoff2)] = paste(trt.group," Down",sep="")
+			pass2.status[(sec.fc >= fc.cutoff) & (sec.pvalue <= pvalue.cutoff2) & (sec.fdr <= fdr.cutoff2)] = paste(trt.group," Up",sep="")
+			pass2.status[(sec.fc <= -fc.cutoff) & (sec.pvalue <= pvalue.cutoff2) & (sec.fdr <= fdr.cutoff2)] = paste(trt.group," Down",sep="")
 		}#end else
 
 		print(paste("Secondary Up-Regulated: ",length(pass2.status[pass2.status == paste(trt.group," Up",sep="")]),sep=""))
