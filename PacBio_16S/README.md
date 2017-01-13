@@ -12,7 +12,7 @@
 
 ### Order to Run Scripts ###
 
-1) `full_run_bax2bam.py` + `create_CCS_and_FASTQ.py` (or `run_pbbarcode_template.py`)
+1) `full_run_bax2bam.py` + `create_CCS_and_FASTQ.py` (or `run_pbbarcode_template.py` + `reformat_barcoded_CCS_FASTQ.py`)
 
 PacBio dependencies available in this [Docker image](https://hub.docker.com/r/cwarden45/general-pacbio/).
 
