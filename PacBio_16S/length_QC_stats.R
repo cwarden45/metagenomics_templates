@@ -47,13 +47,13 @@ for (group in plot.groups){
 	png(dist.file)
 	for (i in 1:length(length.files)){
 		length.table = read.table(length.files[i],sep="\t", head=T)
-		length.quantiles = quantile(length.table$Length, c(0.05,0.25,0.5,0.75, 0.95))
+		length.quantiles = round(quantile(length.table$Length, c(0.05,0.25,0.5,0.75, 0.95)))
 		length.lower5[i] = length.quantiles[1]
 		length.lower.quantile[i] = length.quantiles[2]
 		length.med[i] = length.quantiles[3]
 		length.upper.quantile[i] = length.quantiles[4]
 		length.upper5[i] = length.quantiles[5]
-		length.mean[i] = mean(length.quantiles)
+		length.mean[i] = round(mean(length.quantiles))
 				
 		den <- density(length.table$Length, na.rm=T, from=xrange[1], to=xrange[2])
 		if(i == 1){
