@@ -26,6 +26,7 @@ cluster_distance	Pearson_Dissimilarity
 abundance_file	abundance.txt
 counts_file	read_counts.txt
 abundance_cutoff	0.5
+rounding_factor 0.1
 pvalue_cutoff	0.05
 fdr_cutoff	0.05
 interaction	no
