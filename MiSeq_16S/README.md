@@ -69,7 +69,8 @@ limma: http://bioconductor.org/packages/release/bioc/html/limma.html
 |cluster_distance| Distance metric for dendrogram.  Can be *Euclidean*, *Pearson_Dissimilarity*, *Spearman_Dissimilarity*, or *Kendall_Dissimilarity*|
 |abundance_file|Name of File to Contain Percent Abundance Values|
 |counts_file|Name of File to Contain Read Counts Per Genus|
-|abundance_cutoff|Minimum reliable abundance level.  Maximum abundance must be above this level to be considered for differential abundance analysis|
+|abundance_cutoff|Maximum abundance must be above this level to be considered for differential abundance analysis|
+|rounding_factor|Rounding factor for abundance fold-change value (should be below `abundance_cutoff` if you want to detect genera whose maximum abundance is near cutoff)|
 |pvalue_cutoff|Maximum p-value to consider a genus as having differential abundance|
 |fdr_cutoff|Maximum FDR to consider a genus as having differential abundance|
 |sec_pvalue_cutoff|If comparing two gene lists, p-value threshold for list you want to filter out|
