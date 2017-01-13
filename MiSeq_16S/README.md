@@ -75,6 +75,7 @@ heatmap.3 example: https://www.biostars.org/p/18211/
 |counts_file|Name of File to Contain Read Counts Per Genus|
 |abundance_cutoff|Maximum abundance must be above this level to be considered for differential abundance analysis|
 |rounding_factor|Rounding factor for abundance fold-change value (should be below `abundance_cutoff` if you want to detect genera whose maximum abundance is near cutoff)|
+|fc_cutoff|Minimum linear fold-change difference between groups to be considered differentially expressed|
 |pvalue_cutoff|Maximum p-value to consider a genus as having differential abundance|
 |fdr_cutoff|Maximum FDR to consider a genus as having differential abundance|
 |sec_pvalue_cutoff|If comparing two gene lists, p-value threshold for list you want to filter out|
