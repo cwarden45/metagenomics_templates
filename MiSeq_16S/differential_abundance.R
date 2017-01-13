@@ -29,6 +29,7 @@ fixed.color.palatte = c("green","orange","purple","cyan","pink","maroon","yellow
 param.table = read.table("parameters.txt", header=T, sep="\t")
 comp.name=as.character(param.table$Value[param.table$Parameter == "comp_name"])
 min.abundance= as.numeric(as.character(param.table$Value[param.table$Parameter == "abundance_cutoff"]))
+fc.rounding.factor= as.numeric(as.character(param.table$Value[param.table$Parameter == "rounding_factor"]))
 pvalue.cutoff = as.numeric(as.character(param.table$Value[param.table$Parameter == "pvalue_cutoff"]))
 fdr.cutoff = as.numeric(as.character(param.table$Value[param.table$Parameter == "fdr_cutoff"]))
 pvalue.cutoff2 = as.numeric(as.character(param.table$Value[param.table$Parameter == "sec_pvalue_cutoff"]))
@@ -83,6 +84,7 @@ ab.mat = ab.mat[match(assignments, rownames(ab.mat)),]
 counts = counts[match(assignments, rownames(counts)),]
 print(dim(ab.mat))
 
+ab.mat = ab.mat + fc.rounding.factor
 
 if(length(plot.groups) == 1){
 	print("Averaging Abundance for One Variable (for plot.groups)")
