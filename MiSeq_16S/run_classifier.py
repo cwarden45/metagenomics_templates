@@ -192,7 +192,7 @@ if classifier == "RDPclassifier":
 						outHandle.write(text)
 						
 				lengthPercent = 100 * float(passCount) / float(readCount)
-				text = sample + "\t" + str(readCount)+ "\t"+ str(passCount) +"\t" + '{0:.2g}'.format(lengthPercent) + "\n"
+				text = sample + "\t" + str(readCount)+ "\t"+ str(passCount) +"\t" + '{0:.2f}'.format(lengthPercent) + "\n"
 				statHandle.write(text)
 						
 				if gunzipFlag == 1:
@@ -436,7 +436,7 @@ elif classifier == "mothur":
 						outHandle.write(text)
 						
 				lengthPercent = 100 * float(passCount) / float(readCount)
-				text = sample + "\t" + str(readCount)+ "\t"+ str(passCount) +"\t" + '{0:.2g}'.format(lengthPercent) + "\n"
+				text = sample + "\t" + str(readCount)+ "\t"+ str(passCount) +"\t" + '{0:.2f}'.format(lengthPercent) + "\n"
 				statHandle.write(text)
 				
 				print "\n\nApply mothur classifier\n\n"
