@@ -183,7 +183,6 @@ for line in lines:
 				percentOut = classificationFolder + "/"+sample+".ccs."+str(minCycles)+"x.RDP.out"
 				command = "java -jar -Xmx" + mem + " " + RDPclassifier + " -o " + percentOut + " -h " + treeOut + " " + rdpInput
 				os.system(command)
-						
 		elif classifier == "BWA":
 			if (bwaRef== "") or (bwaRef == "[required]"):
 				print "Need to enter a value for 'BWA_Ref'!"
@@ -325,7 +324,127 @@ for line in lines:
 					line = inHandle.readline()
 						
 				command = "rm " + nameSam
-				os.system(command)
+				os.system(command)						
+		elif classifier == "BLAST":
+			if (bwaRef== "") or (bwaRef == "[required]"):
+				print "Need to enter a value for 'BWA_Ref'!"
+				sys.exit()
+
+			if sample not in finishedSamples:
+				print sample
+
+				subsampleCount = 2000
+				
+				print "Length-Filter (and down-sampled) Reads"
+				print "############################################################################"
+				print "NOTE: This is meant more for validation than original quantification"
+				print "\t\tso, length-filter file not provided"
+				print "\t\talso, for BLAST, a maximum of " + str(subsampleCount) + " reads are used"
+				print "############################################################################"
+				print "\n\nLength-Filter FASTA\n\n"
+				fasta = readsFolder + "/" + sample + ".ccs."+str(minCycles)+"x.fasta"
+				blastInput = readsFolder + "/" + sample + ".ccs."+str(minCycles)+"x.LENGTH_FILTERED.fasta"
+
+				readCount = 0
+				passCount = 0
+				
+				fasta_parser = SeqIO.parse(fasta, "fasta")
+				outHandle = open(blastInput, 'w')
+
+				for fastq in fasta_parser:
+					readName = fastq.id
+					readSeq = str(fastq.seq)
+					readLength = len(str(fastq.seq))
+								
+					readCount += 1
+								
+					if (readLength >= minLength) & (readLength <= maxLength):
+						passCount += 1
+									
+						if passCount <= subsampleCount:
+							text = ">" + readName + "\n" + readSeq + "\n"
+							outHandle.write(text)
+						else:
+							outHandle.close()
+							break
+				
+				print "Run BLAST"
+				classificationFolder = quantFolder + "/" + sample
+				if not os.path.exists(classificationFolder):
+					command = "mkdir " + classificationFolder
+					os.system(command)
+
+				blastResult= classificationFolder + "/BLAST_hits.txt"
+				command = "/opt/ncbi-blast-2.4.0+/bin/blastn -num_threads 1  -num_alignments 1 -evalue 0.1 -query " + blastInput + " -db " + bwaRef + " -out " + blastResult + " -outfmt \"6 qseqid qlen qstart qend sseqid slen sstart send length pident nident mismatch gaps evalue qcovs qcovhsp qcovus\""
+				#os.system(command)
+				
+				print "Create Annotation Hash"
+				inHandle = open(bwaRef)
+				line = inHandle.readline()
+
+				annHash = {}
+
+				while line:
+					line = line.replace("\n","")
+					line = line.replace("\r","")
+
+					headerResult = re.search("^>",line)
+											
+					if headerResult:
+						lineInfo = line.split("\t")
+						id = lineInfo[0]
+						id = re.sub(">","",id)
+						tax = lineInfo[1]
+						tax = re.sub("\"","",tax)
+												
+						bacResult = re.search("Root;Bacteria",tax)
+												
+						if bacResult:
+							annHash[id] = tax
+												
+					line = inHandle.readline()
+
+				inHandle.close()
+								
+				print "Add Taxonomy Annotations"
+				genusHits = classificationFolder +"/BLAST_genus_hits.txt"
+				minMatchLength = 0.8 * minLength
+								
+				outHandle = open(genusHits, "w")
+				text = "Read\tHit\tHit.Length\tTax.String\n"
+				outHandle.write(text)
+
+				inHandle = open(blastResult)
+				line = inHandle.readline()
+
+				totalCount = 0
+				passCount = 0
+
+				while line:
+					line = line.replace("\n","")
+					line = line.replace("\r","")
+
+					totalCount += 1
+					#qseqid qlen qstart qend sseqid slen sstart send length pident nident mismatch gaps evalue qcovs qcovhsp qcovus
+					lineInfo = line.split("\t")
+					read = lineInfo[0]
+					hit = lineInfo[4]
+					matchLength = int(lineInfo[8])
+					tax = "NA"
+
+					if matchLength > minMatchLength:
+						passCount += 1
+						if hit in annHash:
+							tax = annHash[hit]
+												
+					text = read + "\t" + hit + "\t" + str(matchLength) + "\t" + tax + "\n"
+					outHandle.write(text)
+												
+					line = inHandle.readline()
+					
+				passPercent = 100 * float(passCount) / float(totalCount)
+				passPercent = '{0:.2f}'.format(passPercent)
+				print passPercent
 		elif classifier == "mothur":
 			if (mothurRef== "") or (mothurRef == "[required]"):
 				print "Need to enter a value for 'mothur_ref'!"

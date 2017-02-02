@@ -390,6 +390,26 @@ elif classifier == "BWA":
 			text = text + "\t".join(classStats)
 			text = text + "%\t" + summaryFile + "\n"
 			statHandle.write(text)
+elif classifier == "BLAST":
+	fileResults = os.listdir(quantFolder)
+	
+	for folder in fileResults:
+		sample = folder
+		classificationFolder = quantFolder + "/" + folder
+		assignmentFile = classificationFolder  + "/BLAST_genus_hits.txt"
+		
+		if os.path.exists(assignmentFile):
+			print sample
+			
+			summaryFile = quantFolder + "/" + sample + "_BLAST_abundance_count.txt"
+			processedIDs.append(sample)
+			processedFiles.append(summaryFile)
+			
+			text = sample + "\t"
+			classStats = bwaClassStats(assignmentFile, summaryFile)
+			text = text + "\t".join(classStats)
+			text = text + "%\t" + summaryFile + "\n"
+			statHandle.write(text)
 elif classifier == "mothur":
 	fileResults = os.listdir(quantFolder)
 	
