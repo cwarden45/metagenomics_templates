@@ -10,6 +10,8 @@
 
 **c) BWA** - prepare reference sequences using functions to re-train RDP classifier, then prepare BWA index.  See `RDP_BWA_filter_seqs.py` for example.  FASTA sequences with taxonomy information in header are available from [RDPclassifier sourceforge page](https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/).
 
+**d) BLAST** - FASTA reference should be prepared using 'makeblastdb'.  Testing performed using RDP sequences (same as BWA), using version of BLAST+ (v2.4.0) available in this [Docker image](https://hub.docker.com/r/cwarden45/metagenomics/) (not legacy BLAST v2.2.22 used by QIIME)).
+
 ### Order to Run Scripts ###
 
 1) `full_run_bax2bam.py` + `create_CCS_and_FASTQ.py` (or `run_pbbarcode_template.py` + `reformat_barcoded_CCS_FASTQ.py`)
@@ -47,6 +49,8 @@ mothur: http://www.mothur.org/
 
 BWA: http://bio-bwa.sourceforge.net/
 
+BLAST+: https://www.ncbi.nlm.nih.gov/guide/howto/run-blast-local/
+
 samtools: http://samtools.sourceforge.net/
 
 metagenomeSeq: https://bioconductor.org/packages/release/bioc/html/metagenomeSeq.html
@@ -72,11 +76,11 @@ heatmap.3 example: https://www.biostars.org/p/18211/
 |Result_Folder|Path to output folder for selected, final results|
 |Java_Mem|Memory allocation for Java (used by RDPclassifier)|
 |Threads|Number of Reads (used by PEAR, BWA, mothur)|
-|Classifier|Method to assign genus-level classifications.  Can be *RDPclassifier*, *mothur*, or *BWA*.  PEAR used for read merging for RDPclassifier or BWA assignments.  Mothur used for read merging if mothur is used as classifier.|
+|Classifier|Method to assign genus-level classifications.  Can be *RDPclassifier*, *mothur*, *BWA*, or *BLAST*|
 |RDPclassifier_Jar|Full Path to RDPclassifier .jar File|
 |mothur_ref|Path to mothur-formatted reference sequence|
 |mothur_tax|Path to mothur-formatted taxonomy file|
-|BWA_Ref|Path to indexed BWA reference|
+|BWA_Ref|Path to indexed BWA reference (also used for BLAST)|
 |pvalue_method|Method to Calculate P-value.  Can be *limma-ab*, *limma-counts*, or *metagenomeSeq* (*limma-ab* uses abundance percentages, *limma-counts* uses limma-voom)|
 |fdr_method|Method to Calculate FDR.  Can be *BH* (Benjamini and Hochberg),*q-value*, or *q-lfdr*|
 |sample_description_file|Name of Sample Description File|
