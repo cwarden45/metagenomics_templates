@@ -12,6 +12,8 @@
 
 **d) BLAST** - FASTA reference should be prepared using 'makeblastdb'.  See `RDP_BWA_filter_seqs.py` for example.  Testing performed using RDP sequences (same as BWA), using version of BLAST+ (v2.4.0) available in this [Docker image](https://hub.docker.com/r/cwarden45/metagenomics/) (not legacy BLAST v2.2.22 used by QIIME).
 
+**d) SINTAX** - The taxonomy information must follow a specific format (see `SINTAX_reformat_RDP.py`).  Database must be created using "-makeudb_sintax", but this is quick and I've added at the classification step in this template.  Open-source USEARCH license assigned for individuals, so you'll have to download the binary for your computer on your own.
+
 ### Order to Run Scripts ###
 
 1) `full_run_bax2bam.py` + `create_CCS_and_FASTQ.py` (or `run_pbbarcode_template.py` + `reformat_barcoded_CCS_FASTQ.py`)
@@ -35,17 +37,23 @@ PacBio dependencies available in this [Docker image](https://hub.docker.com/r/cw
 
 ### Dependencies (some optional) ###
 
+*PacBio Pre-Processing*
+
 pbccs: https://github.com/PacificBiosciences/pbccs
 
 ConsensusTools: https://github.com/PacificBiosciences/SMRT-Analysis/wiki/ConsensusTools-v2.3.0-Documentation
 
 pbbarcode: https://github.com/PacificBiosciences/pbbarcode
 
-Biopython: http://biopython.org/wiki/Biopython
+*16S Classification Methods*
 
 RDPclassifier: https://sourceforge.net/projects/rdp-classifier/
 
 mothur: http://www.mothur.org/
+
+SINTAX: http://www.drive5.com/usearch/manual/sintax_algo.html
+
+*General Sequencing Software*
 
 BWA: http://bio-bwa.sourceforge.net/
 
@@ -53,9 +61,15 @@ BLAST+: https://www.ncbi.nlm.nih.gov/guide/howto/run-blast-local/
 
 samtools: http://samtools.sourceforge.net/
 
+Biopython: http://biopython.org/wiki/Biopython
+
+*Differential Abundance*
+
 metagenomeSeq: https://bioconductor.org/packages/release/bioc/html/metagenomeSeq.html
 
 limma: http://bioconductor.org/packages/release/bioc/html/limma.html
+
+*Visualization*
 
 heatmap.3: https://github.com/obigriffith/biostar-tutorials/blob/master/Heatmaps/heatmap.3.R
 
@@ -78,6 +92,7 @@ heatmap.3 example: https://www.biostars.org/p/18211/
 |Threads|Number of Reads (used by PEAR, BWA, mothur)|
 |Classifier|Method to assign genus-level classifications.  Can be *RDPclassifier*, *mothur*, *BWA*, or *BLAST*|
 |RDPclassifier_Jar|Full Path to RDPclassifier .jar File|
+|USEARCH_binary|Full Path to USEARCH binary (if using SINTAX)|
 |mothur_ref|Path to mothur-formatted reference sequence|
 |mothur_tax|Path to mothur-formatted taxonomy file|
 |BWA_Ref|Path to indexed BWA reference (also used for BLAST)|
