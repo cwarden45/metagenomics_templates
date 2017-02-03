@@ -10,10 +10,11 @@ Raw_CCS_Folder	[required]
 Min_CCS_Cycles	5
 Result_Folder	[required]
 Classifier	mothur
-RDPclassifier_Jar	/path/to/rdp_classifier_2.12/dist/classifier.jar
-BWA_Ref	/path/to/trainset15_092015.rm.partialseq.fa
 mothur_ref	/path/to/silva.bacteria.fasta
 mothur_tax	/path/to/silva.bacteria.rdp.tax
+RDPclassifier_Jar	/path/to/rdp_classifier_2.12/dist/classifier.jar
+USEARCH_binary  /path/to/usearch
+BWA_Ref	/path/to/trainset15_092015.rm.partialseq.fa
 Java_Mem	4g
 Threads	2
 pvalue_method	metagenomeSeq
