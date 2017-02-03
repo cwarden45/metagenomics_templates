@@ -343,7 +343,7 @@ for line in lines:
 				print "############################################################################"
 				print "\n\nLength-Filter FASTA\n\n"
 				fasta = readsFolder + "/" + sample + ".ccs."+str(minCycles)+"x.fasta"
-				blastInput = readsFolder + "/" + sample + ".ccs."+str(minCycles)+"x.LENGTH_FILTERED.fasta"
+				blastInput = readsFolder + "/" + sample + ".ccs."+str(minCycles)+"x.LENGTH_FILTERED.BLAST_SUBSAMPLE.fasta"
 
 				readCount = 0
 				passCount = 0
