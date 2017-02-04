@@ -141,6 +141,65 @@ def rdpClassStats(assignmentFile, outputfile, threshold, taxLevel):
 		
 	return([str(totalReadCount),str(classCounts), '{0:.3g}'.format(percentClass)])
 
+def sintaxClassStats(assignmentFile, outputfile, threshold, taxLevel):
+	totalReadCount = 0
+	classHash = {}
+	classCounts = 0
+	
+	bacteriaSkippedLines = 0
+	
+	inHandle = open(assignmentFile)
+	line = inHandle.readline()
+	
+	while line:
+		line = line.replace("\n","")
+		line = line.replace("\r","")
+	
+		lineInfo = line.split("\t")
+		readName = lineInfo[0]
+		totalReadCount += 1
+		assignmentText = lineInfo[1]
+		
+		searchExpression = ""
+		if taxLevel == "order":
+			searchExpression ="o:(\S+)\((\d.\d+)\)"
+		elif taxLevel == "family":
+			searchExpression = "f:(\S+)\((\d.\d+)\)"
+		elif taxLevel == "genus":
+			searchExpression = "g:(\S+)\((\d.\d+)\)"
+		else:
+			print "Need to define indices for " + taxLevel
+			sys.exit()
+		
+		reResult = re.search(searchExpression,assignmentText)
+		if reResult:
+			className = reResult.group(1)
+			classScore = float(reResult.group(2))
+
+			if classScore >= threshold:
+				classCounts += 1
+				if className in classHash:
+					classHash[className] = classHash[className] + 1
+				else:
+					classHash[className] = 1
+
+		line = inHandle.readline()	
+
+	outHandle = open(outputfile, "w")
+	text = "Assignment\tRead.Num\tTotal.Percent\tClassified.Percent\n"
+	outHandle.write(text)
+	
+	for assignment in classHash.keys():
+		readCount = classHash[assignment]
+		totalPercent = 100 * float(readCount)/float(totalReadCount)
+		classPercent = 100 * float(readCount)/float(classCounts)
+		
+		text = assignment + "\t" + str(readCount) + "\t" + '{0:.6g}'.format(totalPercent) + "\t" + '{0:.6g}'.format(classPercent) + "\n"
+		outHandle.write(text)
+	
+	percentClass = 100 * float(classCounts) / float(totalReadCount)
+	return([str(totalReadCount),str(classCounts), '{0:.3g}'.format(percentClass)])
+
 def bwaClassStats(assignmentFile, outputfile):
 	totalReadCount = 0
 	classifiedCounts = 0
@@ -367,6 +426,26 @@ if classifier == "RDPclassifier":
 			
 			text = folder + "\t" + sample + "\t"
 			classStats = rdpClassStats(assignmentFile, summaryFile, 0.8,"genus")
+			text = text + "\t".join(classStats)
+			text = text + "%\t" + summaryFile + "\n"
+			statHandle.write(text)
+elif classifier == "SINTAX":
+	fileResults = os.listdir(quantFolder)
+	
+	for folder in fileResults:
+		sample = folder
+		classificationFolder = quantFolder + "/" + folder
+		assignmentFile = classificationFolder  + "/"+sample+".ccs."+str(minCycles)+"x.sintax"
+		
+		if os.path.exists(assignmentFile):
+			print sample
+			
+			summaryFile = quantFolder + "/" + sample + "_SINTAX_abundance_count.txt"
+			processedIDs.append(sample)
+			processedFiles.append(summaryFile)
+			
+			text = sample + "\t"
+			classStats = sintaxClassStats(assignmentFile, summaryFile, 0.8,"genus")
 			text = text + "\t".join(classStats)
 			text = text + "%\t" + summaryFile + "\n"
 			statHandle.write(text)

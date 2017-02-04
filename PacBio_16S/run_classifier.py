@@ -1,6 +1,7 @@
 import sys
 import re
 import os
+import subprocess
 from Bio import SeqIO
 
 parameterFile = "parameters.txt"
@@ -11,6 +12,7 @@ threads = ""
 quantFolder = ""
 readsFolder = ""
 RDPclassifier = ""
+usearch = ""
 classifier = ""
 sample_description_file = ""
 statsFile = ""
@@ -65,6 +67,9 @@ for line in lines:
 		
 	if param == "RDPclassifier_Jar":
 		RDPclassifier = value
+
+	if param == "USEARCH_binary":
+		usearch = value
 
 	if param == "Min_CCS_Cycles":
 		minCycles = int(value)
@@ -182,6 +187,72 @@ for line in lines:
 				treeOut = classificationFolder + "/"+sample+".ccs."+str(minCycles)+"x.RDP.fastahier.txt"
 				percentOut = classificationFolder + "/"+sample+".ccs."+str(minCycles)+"x.RDP.out"
 				command = "java -jar -Xmx" + mem + " " + RDPclassifier + " -o " + percentOut + " -h " + treeOut + " " + rdpInput
+				os.system(command)
+		elif classifier == "SINTAX":
+			if (bwaRef== "") or (bwaRef == "[required]"):
+				print "Need to enter a value for 'BWA_Ref'!"
+				sys.exit()
+				
+			if (usearch == "") or (usearch == "[required]"):
+				print "Need to enter a value for 'USEARCH_binary'!"
+				sys.exit()
+
+			if sample not in finishedSamples:
+				print sample
+
+				print "Length-Filter Reads"
+				fastq = readsFolder + "/" + sample + ".ccs."+str(minCycles)+"x.fastq"
+				sintaxRead =  readsFolder + "/" + sample + ".ccs."+str(minCycles)+"x.LENGTH_FILTERED.fastq"
+						
+				if not os.path.isfile(sintaxRead):
+					def length_filter(records, minLen, maxLen):
+						for rec in records:
+							readLength = len(str(rec.seq))
+									
+							if (readLength >= minLen) & (readLength <= maxLen):
+								yield rec
+							
+					fastq_parser = SeqIO.parse(fastq, "fastq") 
+					SeqIO.write(length_filter(fastq_parser, minLength, maxLength), sintaxRead, "fastq")
+
+				command = "wc -l " + fastq
+				commandOutput = subprocess.check_output(command, shell=True)
+				wcResult = re.search("^\s+(\d+)",commandOutput)
+				readCount = int(wcResult.group(1))/4
+
+				command = "wc -l " + sintaxRead
+				commandOutput = subprocess.check_output(command, shell=True)
+				wcResult = re.search("^\s+(\d+)",commandOutput)
+				passCount = int(wcResult.group(1))/4
+
+				lengthPercent = 100 * float(passCount) / float(readCount)
+				text = sample + "\t" + str(readCount)+ "\t"+ str(passCount) +"\t" + '{0:.2f}'.format(lengthPercent) + "\n"
+				statHandle.write(text)
+				
+				print "Index Fasta Reference"
+				print "NOTE: You most likley need to run SINTAX_reformat_RDP.py to create the reference with the right format"
+				faSuffix = re.search(".fa$",bwaRef)
+				fastaSuffix = re.search(".fasta$",bwaRef)
+				
+				if faSuffix:
+					sintaxDb = re.sub(".fa$","",bwaRef)
+				elif fastaSuffix:
+					sintaxDb = re.sub(".fasta$","",bwaRef)
+				else:
+					print "SINTAX database renamed based upon .fa or .fasta extention for 'BWA_Ref' reference.\n"
+					print "Please double-check that have the right file, or modify template code"
+					
+				command = usearch + " -makeudb_sintax " + bwaRef + " -output " + sintaxDb
+				os.system(command)
+				
+				print "Running SINTAX"
+				classificationFolder = quantFolder + "/" + sample
+				if not os.path.exists(classificationFolder):
+					command = "mkdir " + classificationFolder
+					os.system(command)
+
+				output = classificationFolder + "/"+sample+".ccs."+str(minCycles)+"x.sintax"
+				command = usearch + " -sintax " + sintaxRead + " -db " + sintaxDb + " -tabbedout " + output + " -strand both -sintax_cutoff 0.8"
 				os.system(command)
 		elif classifier == "BWA":
 			if (bwaRef== "") or (bwaRef == "[required]"):
