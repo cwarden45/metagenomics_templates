@@ -296,7 +296,7 @@ for (i in 1:length(deg.groups)){
 	deg.group = deg.groups[i]
 	
 	if((i == 1) & (trt.group != "continuous")){
-		deg.group.values = deg.meta[,deg.group]
+		deg.group.values = as.character(deg.meta[,deg.group])
 		min.reps = min(table(deg.group.values))
 		if (min.reps < 2){
 			rep.check=0
@@ -304,7 +304,7 @@ for (i in 1:length(deg.groups)){
 			print("In the future, please make sure you at least have duplicate samples.")
 		}#end if (min.reps < 2)
 	} else if ((i == 2) & (trt.group2 != "continuous")){
-		deg.group.values = deg.meta[,deg.group]
+		deg.group.values = as.character(deg.meta[,deg.group])
 		min.reps = min(table(deg.group.values))
 		if (min.reps < 2){
 			rep.check=0
