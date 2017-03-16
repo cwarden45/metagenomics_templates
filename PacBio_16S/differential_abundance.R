@@ -397,13 +397,13 @@ if(rep.check == 1){
 				if (trt.group == "continuous"){
 					var1 = as.numeric(var1)
 				} else{
-					var1 = as.factor(var1)
+					var1 = as.factor(as.character(var1))
 				}
 
 				if (trt.group2 == "continuous"){
 					var2 = as.numeric(var2)
 				} else{
-					var2 = as.factor(var2)
+					var2 = as.factor(as.character(var2))
 				}
 				design = model.matrix(~var1 + var2)
 				fit = lmFit(deg.ab,design)
@@ -485,13 +485,13 @@ if(rep.check == 1){
 				if (trt.group == "continuous"){
 					var1 = as.numeric(var1)
 				} else{
-					var1 = as.factor(var1)
+					var1 = as.factor(as.character(var1))
 				}
 
 				if (trt.group2 == "continuous"){
 					var2 = as.numeric(var2)
 				} else{
-					var2 = as.factor(var2)
+					var2 = as.factor(as.character(var2))
 				}
 				design <- model.matrix(~var1 + var2)
 				png(paste(comp.name,"voom_plot.png",sep="_"))
