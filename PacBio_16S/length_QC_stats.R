@@ -32,15 +32,6 @@ if ((classifier == "RDPclassifier")|(classifier == "BWA")){
 	stop(paste("Need to write code for classifier: ",classifier,sep=""))
 }
 		
-group.levels = levels(as.factor(groupID))
-num.sample.types = length(group.levels)
-color.palette = fixed.color.palatte[1:num.sample.types]
-
-labelColors = rep("black",times=length(length.files))
-for (i in 1:length(groupID)){
-	labelColors[groupID == as.character(group.levels[i])] = color.palette[i]
-}#end for (i in 1:length(target.groups))
-		
 for (group in plot.groups){
 	groupID = as.character(sample.table[,group])
 			
