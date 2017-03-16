@@ -14,7 +14,7 @@
 
 1) `preprocess_RDPclassifier_or_BWA.py` or `preprocess_mothur.py`
 
-2)` merged_length_QC_stats.R` (one way to determine minimum and maximium merged length)
+2) `merged_length_QC_stats.R` (one way to determine minimum and maximium merged length)
 
 3) `run_classifier.py`
 
