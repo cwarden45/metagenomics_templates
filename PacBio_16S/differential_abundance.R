@@ -1,9 +1,9 @@
-avgGroupExpression <- function (geneExpr, groups) {
+avgGroupExpression = function (geneExpr, groups) {
 	avg.expr = tapply(geneExpr, groups, mean)
 	return(avg.expr)
 }#end def avgGroupExpression
 
-ratio2fc <- function(value)
+ratio2fc = function(value)
 {
 	if(value >= 1){
 		return(value)
@@ -22,6 +22,11 @@ calc.gene.cor = function(arr, indep.var)
 	}
 	return(gene.cor.coef)
 }#end def calc.gene.cor
+
+count.na.values = function(arr)
+{
+	return(length(arr[is.na(arr)]))
+}#end def count.na.values
 
 library(gplots)
 fixed.color.palatte = c("green","orange","purple","cyan","pink","maroon","yellow","grey","red","blue","black","darkgreen","thistle1","tan","orchid1",colors())
