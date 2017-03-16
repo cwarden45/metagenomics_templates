@@ -13,7 +13,6 @@ yrange = c(0,0.2)
 
 sample.table = read.table(sample.description.file, sep="\t", header=T)
 sampleID = as.character(sample.table$sampleID)
-groupID = as.character(sample.table$Group)
 
 length.upper5= rep(NA, length(sampleID))
 length.upper.quantile = rep(NA, length(sampleID))
@@ -43,6 +42,17 @@ for (i in 1:length(groupID)){
 }#end for (i in 1:length(target.groups))
 		
 for (group in plot.groups){
+	groupID = as.character(sample.table[,group])
+			
+	group.levels = levels(as.factor(groupID))
+	num.sample.types = length(group.levels)
+	color.palette = fixed.color.palatte[1:num.sample.types]
+
+	labelColors = rep("black",times=length(length.files))
+	for (i in 1:length(groupID)){
+		labelColors[groupID == as.character(group.levels[i])] = color.palette[i]
+	}#end for (i in 1:length(groupID))
+	
 	dist.file  = paste("filtered_CCS_length_dist_by_",group,".png",sep="")
 	png(dist.file)
 	for (i in 1:length(length.files)){
