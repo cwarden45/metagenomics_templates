@@ -346,7 +346,34 @@ if(rep.check == 1){
 				test.pvalue = as.numeric(fit$pvalues)
 			} else if ((length(deg.groups) == 2)&(interaction.flag == "no")){
 				print("metagenomeSeq with 2 variables")
-				stop("Need to add code!")
+				if (trt.group == "continuous"){
+					var1 = as.numeric(var1)
+				} else{
+					var1 = as.factor(as.character(var1))
+				}
+
+				if (trt.group2 == "continuous"){
+					var2 = as.numeric(var2)
+				} else{
+					var2 = as.factor(as.character(var2))
+				}
+
+				pheno = data.frame(var1=var1, var2=var2)
+				rownames(pheno) = colnames(deg.counts)
+				
+				features = data.frame(genus = assignments)
+				rownames(features) = rownames(deg.counts)
+				
+				mrObj = newMRexperiment(deg.counts, phenoData=AnnotatedDataFrame(pheno), featureData=AnnotatedDataFrame(features))
+				scalePercentile = cumNormStatFast(mrObj)
+				mrObj = cumNorm(mrObj, p = scalePercentile)
+				design = model.matrix(~var1+var2)
+				#get error message if trying to use fitFeatureModel
+				settings = zigControl(maxit = 10, verbose = TRUE)
+				fit = fitZig(obj = mrObj, mod = design, useCSSoffset = FALSE,
+								control = settings)
+				pvalue.mat = fit$eb$p.value
+				test.pvalue = as.numeric(pvalue.mat[,2])	
 			} else if ((length(deg.groups) == 2)&(interaction.flag == "model")){
 				print("metagenomeSeq with 2 variables plus interaction")
 				stop("Need to add code!")
