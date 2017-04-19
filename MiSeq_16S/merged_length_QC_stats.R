@@ -16,6 +16,7 @@ if ((classifier == "RDPclassifier")|(classifier == "BWA")){
 	
 	sample.table = read.table(sample.description.file, sep="\t", header=T)
 	fileID = as.character(sample.table$sampleID)
+	fileID = gsub("_L001_R1_001","",fileID)
 	shortID = as.character(sample.table$userID)
 	targetID = as.character(sample.table$Target)
 	groupID = as.character(sample.table$Group)
