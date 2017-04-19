@@ -119,6 +119,8 @@ for line in lines:
 				nameIndex = i
 	else:
 		key = lineInfo[sampleIndex]
+		#might need to uncomment with RDPclassifier code
+		#key = re.sub("_L001_R1_001","",key)
 		min = int(lineInfo[minIndex])
 		max = int(lineInfo[maxIndex])
 		name = lineInfo[nameIndex]
