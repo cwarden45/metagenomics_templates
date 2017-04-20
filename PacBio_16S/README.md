@@ -10,7 +10,7 @@
 
 **c) BWA** - prepare reference sequences using functions to re-train RDP classifier, then prepare BWA index.  See `RDP_BWA_filter_seqs.py` for example.  FASTA sequences with taxonomy information in header are available from [RDPclassifier sourceforge page](https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/).
 
-**d) BLAST** - FASTA reference should be prepared using 'makeblastdb'.  See `RDP_BWA_filter_seqs.py` for example.  Testing performed using RDP sequences (same as BWA), using version of BLAST+ (v2.4.0) available in this [Docker image](https://hub.docker.com/r/cwarden45/metagenomics/) (not legacy BLAST v2.2.22 used by QIIME).
+**d) BLAST** - FASTA reference should be prepared using 'makeblastdb'.  See `RDP_BWA_filter_seqs.py` for example.  Testing performed using RDP sequences (same as BWA), using version of BLAST+ (v2.4.0) available in this [Docker image](https://hub.docker.com/r/cwarden45/metagenomics/) (not legacy BLAST v2.2.22 used by QIIME) as well as BLAST v2.6.0.
 
 **d) SINTAX** - The taxonomy information must follow a specific format (see `SINTAX_reformat_RDP.py`).  Database must be created using "-makeudb_sintax", but this is quick and I've added at the classification step in this template.  Open-source USEARCH license assigned for individuals, so you'll have to download the binary for your computer on your own.
 
