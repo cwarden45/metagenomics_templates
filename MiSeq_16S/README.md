@@ -10,6 +10,8 @@
 
 **c) BWA** - prepare reference sequences using functions to re-train RDP classifier, then prepare BWA index.  See `RDP_BWA_filter_seqs.py` for example.  FASTA sequences with taxonomy information in header are available from [RDPclassifier sourceforge page](https://sourceforge.net/projects/rdp-classifier/files/RDP_Classifier_TrainingData/).
 
+**d) BLAST** - FASTA reference should be prepared using 'makeblastdb'.  See `RDP_BWA_filter_seqs.py` for example.  Testing performed using RDP sequences (same as BWA), using BLAST+ v2.6.0.
+
 ### Order to Run Scripts ###
 
 1) `preprocess_RDPclassifier_or_BWA.py` or `preprocess_mothur.py`
@@ -60,7 +62,7 @@ heatmap.3 example: https://www.biostars.org/p/18211/
 |Result_Folder|Path to output folder for selected, final results|
 |Java_Mem|Memory allocation for Java (used by RDPclassifier)|
 |Threads|Number of Reads (used by PEAR, BWA, mothur)|
-|Classifier|Method to assign genus-level classifications.  Can be *RDPclassifier*, *mothur*, or *BWA*.  PEAR used for read merging for RDPclassifier or BWA assignments.  Mothur used for read merging if mothur is used as classifier.|
+|Classifier|Method to assign genus-level classifications.  Can be *RDPclassifier*, *mothur*, *BWA*, or *BLAST*.  PEAR used for read merging for RDPclassifier, BWA, and BLAST assignments.  BLAST only applied to subset of reads (can change code if you want maximum other than 2000 PEAR merged reads).  Mothur used for read merging if mothur is used as classifier.|
 |RDPclassifier_Jar|Full Path to RDPclassifier .jar File|
 |mothur_ref|Path to mothur-formatted reference sequence|
 |mothur_tax|Path to mothur-formatted taxonomy file|
