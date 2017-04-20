@@ -1,4 +1,4 @@
-colLab <- function(n, labelColors, clusMember) { 
+colLab = function(n, labelColors, clusMember) { 
    if(is.leaf(n)) { 
        a <- attributes(n) 
 	   #print(a)
@@ -9,7 +9,14 @@ colLab <- function(n, labelColors, clusMember) {
        attr(n, "nodePar") <- c(a$nodePar, lab.col = labCol) 
    } 
    n 
-}
+}#end def colLab
+
+reformat.label = function(name, kept.characters=20){
+	#new.name = paste("...",unlist(substr(name, nchar(name)-kept.characters,nchar(name))),sep="")
+	assignment.info = unlist(strsplit(name,split=";"))
+	new.name = assignment.info[length(assignment.info)]
+	return(new.name)
+}#end def reformat.label
 
 param.table = read.table("parameters.txt", header=T, sep="\t")
 sample.description.file = as.character(param.table$Value[param.table$Parameter == "sample_description_file"])
