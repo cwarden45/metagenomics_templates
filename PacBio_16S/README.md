@@ -14,7 +14,7 @@
 
 **e) SINTAX** - The taxonomy information must follow a specific format (see `SINTAX_reformat_RDP.py`).  Database must be created using "-makeudb_sintax", but this is quick and I've added at the classification step in this template.  Open-source USEARCH license assigned for individuals, so you'll have to download the binary for your computer on your own.
 
-There are also references available to download for SINTAX [here](http://www.drive5.com/usearch/manual/sintax_downloads.html), including an RDP reference set with species annotations.
+There are also references available to download for SINTAX [here](http://www.drive5.com/usearch/manual/sintax_downloads.html), including an RDP reference set with species annotations (although you may have to modify the 'create_count_table.py' code).
 
 ### Order to Run Scripts ###
 
