@@ -145,7 +145,6 @@ mem = ""
 quantFolder = ""
 classifier = ""
 description_file = ""
-statsFile = ""
 combined_counts_file = ""
 combined_abundance_file = ""
 
@@ -244,10 +243,6 @@ for line in lines:
 		
 		shortNameHash[key] = name
 		longNameHash[name] = key
-
-statHandle = open(statsFile, 'w')
-text = "SampleID\tuserID\tQC.Reads\tClassified.Reads\tPercent.Classified\tSample.Summary.File\n"
-statHandle.write(text)
 		
 if classifier == "BWA":
 	fileResults = os.listdir(quantFolder)
