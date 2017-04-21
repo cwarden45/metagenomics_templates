@@ -457,7 +457,7 @@ elif classifier == "BLAST":
 					os.system(command)
 
 				blastResult= classificationFolder + "/BLAST_hits.txt"
-				command = "/opt/ncbi-blast-2.6.0+/bin/blastn -num_threads 1  -num_alignments 1 -evalue 0.1 -query " + blastInput + " -db " + bwaRef + " -out " + blastResult + " -outfmt \"6 qseqid qlen qstart qend sseqid slen sstart send length pident nident mismatch gaps evalue qcovs qcovhsp qcovus\""
+				command = "/opt/ncbi-blast-2.6.0+/bin/blastn -num_threads 1  -num_alignments 1 -evalue 1e-10 -query " + blastInput + " -db " + bwaRef + " -out " + blastResult + " -outfmt \"6 qseqid qlen qstart qend sseqid slen sstart send length pident nident mismatch gaps evalue qcovs qcovhsp qcovus\""
 				os.system(command)
 
 				if gunzipFlag == 1:
