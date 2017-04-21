@@ -27,7 +27,7 @@ def bwaClassStats(assignmentFile, outputfile):
 			lineInfo = line.split("\t")
 			tax = lineInfo[1] + "\t" + lineInfo[3]
 			
-			if tax != "NA":
+			if lineInfo[3] != "NA":
 				classifiedCounts += 1
 				
 				if tax in taxHash:
