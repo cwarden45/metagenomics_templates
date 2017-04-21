@@ -28,6 +28,13 @@ count.na.values = function(arr)
 	return(length(arr[is.na(arr)]))
 }#end def count.na.values
 
+reformat.label = function(name, kept.characters=20){
+	#new.name = paste("...",unlist(substr(name, nchar(name)-kept.characters,nchar(name))),sep="")
+	assignment.info = unlist(strsplit(name,split=";"))
+	new.name = assignment.info[length(assignment.info)]
+	return(new.name)
+}#end def reformat.label
+
 library(gplots)
 fixed.color.palatte = c("green","orange","purple","cyan","pink","maroon","yellow","grey","red","blue","black","darkgreen","thistle1","tan","orchid1",colors())
 
