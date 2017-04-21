@@ -373,6 +373,8 @@ for line in lines:
 				sampleIndex = i
 	else:
 		key = lineInfo[sampleIndex]
+		#might need to uncomment with RDPclassifier / BWA / BLAST code
+		#key = re.sub("_L001_R1_001","",key)
 		name = lineInfo[nameIndex]
 		
 		shortNameHash[key] = name
@@ -418,6 +420,27 @@ elif classifier == "BWA":
 			processedFiles.append(summaryFile)
 			
 			text = folder + "\t" + sample + "\t"
+			classStats = bwaClassStats(assignmentFile, summaryFile)
+			text = text + "\t".join(classStats)
+			text = text + "%\t" + summaryFile + "\n"
+			statHandle.write(text)
+elif classifier == "BLAST":
+	fileResults = os.listdir(quantFolder)
+	
+	for folder in fileResults:
+		sample = folder
+		classificationFolder = quantFolder + "/" + folder
+		assignmentFile = classificationFolder  + "/BLAST_genus_hits.txt"
+		
+		if os.path.exists(assignmentFile):
+			sample = shortNameHash[folder]
+			print sample
+			
+			summaryFile = quantFolder + "/" + sample + "_BLAST_abundance_count.txt"
+			processedIDs.append(sample)
+			processedFiles.append(summaryFile)
+			
+			text = sample + "\t"
 			classStats = bwaClassStats(assignmentFile, summaryFile)
 			text = text + "\t".join(classStats)
 			text = text + "%\t" + summaryFile + "\n"
