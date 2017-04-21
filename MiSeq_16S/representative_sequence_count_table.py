@@ -82,7 +82,6 @@ def abundanceTable(inputArr, sampleIDs, outputfile, normMethod):
 	for i in xrange(0, len(sampleIDs)):
 		sample = sampleIDs[i]
 		inputfile = inputArr[i]
-		print sample
 	
 		inHandle = open(inputfile)
 		line = inHandle.readline()
