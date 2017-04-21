@@ -133,7 +133,7 @@ if(length(deg.groups) == 1){
 	counts = counts[match(assignments, rownames(counts)),]
 	deg.counts = deg.counts[match(assignments, rownames(deg.counts)),]
 	deg.ab = deg.ab[match(assignments, rownames(deg.ab)),]
-	average.ab = average.ab[match(assignments, rownames(deg.ab)),]
+	average.ab = average.ab[match(assignments, rownames(average.ab)),]
 	print(dim(ab.mat))
 	
 	var1 = var1[!is.na(var1)]
