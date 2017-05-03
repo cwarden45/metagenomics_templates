@@ -26,6 +26,8 @@
 
 6) `differential_abundance.R`
 
+As an optional upstream step, you can run `cutadapt_filter.py` (and `cutadapt_filter_statistics.py`, after `cluster_FastQC_serial.py`).
+
 You can also run `cluster_FastQC_serial.py`, `collect_starting_reads.py`, and `collect_summary_statistics.R` to create a single table with QC statistics.
 
 ### Dependencies (some optional) ###
