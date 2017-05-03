@@ -26,6 +26,7 @@
 
 6) `differential_abundance.R`
 
+You can also run `cluster_FastQC_serial.py` and `collect_summary_statistics.R` to create a single table with QC statistics.
 
 ### Dependencies (some optional) ###
 
