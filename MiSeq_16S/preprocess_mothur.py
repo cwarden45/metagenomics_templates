@@ -41,18 +41,15 @@ if not os.path.exists(mergedReadsFolder):
 	
 fileResults = os.listdir(readsFolder)
 for file in fileResults:
-	#if starting from .fastq files, early .gz creation doesn't make sense if you're only running mothur, but I've left this since .gz file would already be created from RDP pipeline
-	#however, this strategy is slightly better if staring with MiSeq .fastq.gz files (which will not start with compressing the file)
 	result = re.search("(.*_L\d{3}_R1_001).fastq$",file)
-	if result:
-		command = "gzip " + file
-		os.system(command)
-		file = file + ".gz"
-	
 	resultGZ = re.search("(.*_L\d{3}_R1_001).fastq.gz$",file)
 	
-	if resultGZ:
-		sample = resultGZ.group(1)
+	if result or resultGZ:
+		if resultGZ:
+			sample = resultGZ.group(1)
+		else:
+			sample = result.group(1)
+			
 		if sample not in finishedSamples:
 			print sample
 			
@@ -112,14 +109,21 @@ for file in fileResults:
 			os.system(command)
 	
 			print "\n\nRemove Degenerate Nucleotide Reads\n\n"
-			contigFA = mergedReadsFolder + "/" + re.sub(".fastq.gz$","",file)+ ".trim.contigs.fasta"
+			if gunzipFlag==1:
+				contigFA = mergedReadsFolder + "/" + re.sub(".fastq.gz$","",file)+ ".trim.contigs.fasta"
+			else:
+				contigFA = mergedReadsFolder + "/" + re.sub(".fastq$","",file)+ ".trim.contigs.fasta"
+				
 			command = "mothur \"#screen.seqs(fasta="+contigFA+", processors="+threads+", maxambig=0)\""
 			os.system(command)
 			
 			print "\n\nCreate Read Length File\n\n"
 			#still do this to get quality-filtered read lengths
 			filteredContigFA = re.sub(".fasta$",".good.fasta",contigFA)
-			readLengthFile = mergedReadsFolder + "/" + re.sub(".fastq.gz$","",file) + ".trim.contigs.good.read_length"
+			if gunzipFlag==1:
+				readLengthFile = mergedReadsFolder + "/" + re.sub(".fastq.gz$","",file) + ".trim.contigs.good.read_length"
+			else:
+				readLengthFile = mergedReadsFolder + "/" + re.sub(".fastq$","",file) + ".trim.contigs.good.read_length"
 			
 			fasta_parser = SeqIO.parse(filteredContigFA, "fasta")
 			
