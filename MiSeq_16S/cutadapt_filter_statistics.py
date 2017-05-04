@@ -4,7 +4,7 @@ import os
 import subprocess
 
 fullReadsFolder = "../Reads"
-cutadaptReadsFolder = "Cutadapt_Filtered_Reads"
+cutadaptReadsFolder = "../Reads/Cutadapt_Filtered_Reads"
 statFile = "cutadapt_filter_rate.txt"
 
 
