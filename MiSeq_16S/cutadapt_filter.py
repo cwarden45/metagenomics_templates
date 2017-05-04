@@ -5,9 +5,8 @@ from Bio.Seq import Seq
 
 finishedSamples = []
 
-inputFolder = "../../Reads"
-#outputFolder = "Cutadapt_Full_Reads"
-outputFolder = "Cutadapt_with_Adapter"
+inputFolder = "../Reads"
+outputFolder = "../Reads/Cutadapt_Filtered_Reads"
 includeAdapter = True
 
 #make sure sample name goes all the way to .fastq.gz (or .fastq, if you modify the code)
@@ -65,6 +64,8 @@ inHandle.close()
 
 fileResults = os.listdir(inputFolder)
 
+command = "mkdir " + outputFolder
+os.system(command)
 
 for file in fileResults:
 	result = re.search("(.*_L\d{3}_R1_001).fastq.gz$",file)
