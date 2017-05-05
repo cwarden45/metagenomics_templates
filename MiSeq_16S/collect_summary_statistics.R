@@ -6,9 +6,13 @@ classified.stat.file = "classification_stats.txt"
 output.file = "combined_statistics.txt"
 
 sample.table = read.table(sample.file, head=T, sep="\t")
+#sample.table$sampleID = as.character(sample.table$sampleID)
+#sample.table$sampleID = gsub("_L001_R1_001","",sample.table$sampleID)
 
 fastqc.table = read.table(fastqc.file, head=T, sep="\t")
-fastqc.table = fastqc.table[match(sample.table$sampleID,fastqc.table$SampleID),]
+fastqcID = as.character(fastqc.table$SampleID)
+#fastqcID = gsub("_L001_R1_001","",fastqcID)
+fastqc.table = fastqc.table[match(sample.table$sampleID,fastqcID),]
 
 length.table = read.table(length.count.file, head=T, sep="\t")
 totalID = as.character(length.table$Sample)
