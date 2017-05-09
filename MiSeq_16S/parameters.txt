@@ -30,3 +30,4 @@ pvalue_cutoff	0.05
 fdr_cutoff	0.05
 interaction	no
 secondary_trt	NULL
+subsample_classification  no
