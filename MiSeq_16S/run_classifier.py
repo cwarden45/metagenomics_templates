@@ -17,6 +17,7 @@ statsFile = ""
 bwaRef = ""
 mothurRef = ""
 mothurTax = ""
+max_reads = ""
 
 inHandle = open(parameterFile)
 lines = inHandle.readlines()
@@ -65,6 +66,9 @@ for line in lines:
 	if param == "RDPclassifier_Jar":
 		RDPclassifier = value
 
+	if param == "subsample_classification":
+		max_reads = value
+		
 if (description_file== "") or (description_file == "[required]"):
 	print "Need to enter a value for 'sample_description_file'!"
 	sys.exit()
@@ -83,6 +87,10 @@ if (readsFolder == "") or (readsFolder == "[required]"):
 	
 if (quantFolder == "") or (quantFolder == "[required]"):
 	print "Need to enter a value for 'Classification_Folder'!"
+	sys.exit()
+
+if (max_reads == "") or (max_reads == "[required]"):
+	print "Need to enter a value for 'subsample_classification'!"
 	sys.exit()
 
 #define min / max length per target / sample
@@ -192,6 +200,15 @@ if classifier == "RDPclassifier":
 						text = ">" + readName + "\n"
 						text = text + str(fastq.seq)+ "\n"
 						outHandle.write(text)
+
+						if max_reads == "no":
+							text = ">" + readName + "\n"
+							text = text + str(fastq.seq)+ "\n"
+							outHandle.write(text)
+						elif passCount <= int(max_reads):
+							text = ">" + readName + "\n"
+							text = text + str(fastq.seq)+ "\n"
+							outHandle.write(text)
 						
 				lengthPercent = 100 * float(passCount) / float(readCount)
 				text = sample + "\t" + str(readCount)+ "\t"+ str(passCount) +"\t" + '{0:.2f}'.format(lengthPercent) + "\n"
@@ -580,10 +597,15 @@ elif classifier == "mothur":
 					if (readLength >= minLength) & (readLength <= maxLength):
 						passCount += 1
 						
-						text = ">" + readName + "\n"
-						text = text + str(fastq.seq)+ "\n"
-						outHandle.write(text)
-						
+						if max_reads == "no":
+							text = ">" + readName + "\n"
+							text = text + str(fastq.seq)+ "\n"
+							outHandle.write(text)
+						elif passCount <= int(max_reads):
+							text = ">" + readName + "\n"
+							text = text + str(fastq.seq)+ "\n"
+							outHandle.write(text)
+							
 				lengthPercent = 100 * float(passCount) / float(readCount)
 				text = sample + "\t" + str(readCount)+ "\t"+ str(passCount) +"\t" + '{0:.2f}'.format(lengthPercent) + "\n"
 				statHandle.write(text)
