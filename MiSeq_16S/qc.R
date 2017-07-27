@@ -53,7 +53,15 @@ par(mfrow=c(1,2),mar=c(7,2,2,2),oma=c(7,2,2,2))
 barplot(as.matrix(ab.mat), names.arg=names(ab.mat), las=2, col=class.colors, ylim = c(0,100))
 
 plot(0, 0, type='n', bty='n', xaxt='n', yaxt='n',xlab="",ylab="")
-legend("left",as.character(colored.assignments),col=top.colors[1:length(colored.assignments)], pch=15, cex=0.9)
+if(classifier == "BWA"){
+	legend.labels = sapply(as.character(colored.assignments), reformat.label)
+	legend("left",as.character(legend.labels),
+			col=top.colors[1:length(colored.assignments)], pch=15, cex=0.9, xpd=T, inset=-0.1)
+
+}else{
+	legend("left",as.character(colored.assignments),
+		col=top.colors[1:length(colored.assignments)], pch=15, cex=0.9, xpd=T, inset=-0.1)
+}
 dev.off()
 
 for (group in plot.groups){
