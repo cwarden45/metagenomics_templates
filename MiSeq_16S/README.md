@@ -70,7 +70,7 @@ heatmap.3 example: https://www.biostars.org/p/18211/
 |mothur_ref|Path to mothur-formatted reference sequence|
 |mothur_tax|Path to mothur-formatted taxonomy file|
 |BWA_Ref|Path to indexed BWA reference|
-|pvalue_method|Method to Calculate P-value.  Can be *limma-ab*, *limma-counts*, or *metagenomeSeq* (*limma-ab* uses abundance percentages, *limma-counts* uses limma-voom)|
+|pvalue_method|Method to Calculate P-value.  Can be *limma-ab*, *limma-counts*, *metagenomeSeq*, *ANOVA*, or *lm* (*limma-ab* uses abundance percentages, *limma-counts* uses limma-voom, *lm* is regular linear regression)|
 |fdr_method|Method to Calculate FDR.  Can be *BH* (Benjamini and Hochberg),*q-value*, or *q-lfdr*|
 |sample_description_file|Name of Sample Description File|
 |total_counts_file|Name of File to Contain Total Read Counts|
