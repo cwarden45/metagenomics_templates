@@ -35,6 +35,42 @@ reformat.label = function(name, kept.characters=20){
 	return(new.name)
 }#end def reformat.label
 
+gene.lm = function(arr, var1, var2=c(), var3=c())
+{	
+	if (length(var2) == 0){
+		fit = lm(as.numeric(arr) ~ var1)
+		result = summary(fit)
+		pvalue = result$coefficients[2,4]
+	} else if (length(var3) == 0){
+		fit = lm(as.numeric(arr) ~ var1 + var2)
+		result = summary(fit)
+		pvalue = result$coefficients[2,4]
+	} else {
+		fit = lm(as.numeric(arr) ~ var2*var3 + var2 + var3)
+		result = summary(fit)
+		pvalue = result$coefficients[4,4]
+	}
+	return(pvalue)
+}#end def gene.lm
+
+gene.aov = function(arr, var1, var2=c(), var3=c())
+{	
+	if (length(var2) == 0){
+		fit = aov(as.numeric(arr) ~ var1)
+		result = summary(fit)
+		aov.pvalue = result[[1]][['Pr(>F)']][1]
+	} else if (length(var3) == 0){
+		fit = aov(as.numeric(arr) ~ var1 + var2)
+		result = summary(fit)
+		aov.pvalue = result[[1]][['Pr(>F)']][1]
+	} else {
+		fit = aov(as.numeric(arr) ~ var2*var3 + var2 + var3)
+		result = summary(fit)
+		aov.pvalue = result[[1]][['Pr(>F)']][3]
+	}
+	return(aov.pvalue)
+}#end def gene.aov
+
 library(gplots)
 fixed.color.palatte = c("green","orange","purple","cyan","pink","maroon","yellow","grey","red","blue","black","darkgreen","thistle1","tan","orchid1",colors())
 
@@ -556,8 +592,106 @@ if(rep.check == 1){
 				test.pvalue = pvalue.mat[,4]
 			}
 		}#end else
+	} else if (pvalue.method == "lm-ab"){
+		if ((length(deg.groups) == 2)&(interaction.flag == "filter-overlap")){
+			print("Abundance linear regression, Two-Step Analysis")
+
+			if (trt.group == "continuous"){
+				prim.deg.grp = as.numeric(prim.deg.grp)
+			}
+			
+			prim.pvalue = apply(prim.ab, 1, gene.lm, var1=prim.deg.grp)
+			
+
+			if (trt.group2 == "continuous"){
+				sec.deg.grp = as.numeric(sec.deg.grp)
+			}
+			
+			sec.pvalue = apply(sec.ab, 1, gene.lm, var1=sec.deg.grp)
+		} else {
+			if (length(deg.groups) == 1){
+				print("Abundance linear regression with 1 variable")
+
+				if (trt.group == "continuous"){
+					var1 = as.numeric(var1)
+				}
+				test.pvalue = apply(deg.ab, 1, gene.lm, var1=var1)
+			} else if ((length(deg.groups) == 2)&(interaction.flag == "no")){
+				print("Abundance linear regression with 2 variables")
+
+				if (trt.group == "continuous"){
+					var1 = as.numeric(var1)
+				}
+
+				if (trt.group2 == "continuous"){
+					var2 = as.numeric(var2)
+				}
+				test.pvalue = apply(deg.ab, 1, gene.lm, var1=var1, var2=var2)
+			} else if ((length(deg.groups) == 2)&(interaction.flag == "model")){
+				print("Abundance linear regression with 2 variables plus interaction")
+				var3 = as.factor(paste(var1,var2,sep=":"))
+
+				if (trt.group == "continuous"){
+					var1 = as.numeric(var1)
+				}
+
+				if (trt.group == "continuous"){
+					var2 = as.numeric(var2)
+				}
+				test.pvalue = apply(deg.ab, 1, gene.lm, var1=var3, var2=var1, var3=var2)
+			}
+		}#end else
+	} else if (pvalue.method == "ANOVA-ab"){
+		if ((length(deg.groups) == 2)&(interaction.flag == "filter-overlap")){
+			print("Abundance ANOVA, Two-Step Analysis")
+
+			if (trt.group == "continuous"){
+				prim.deg.grp = as.numeric(prim.deg.grp)
+			}
+			
+			prim.pvalue = apply(prim.ab, 1, gene.aov, var1=prim.deg.grp)
+			
+
+			if (trt.group2 == "continuous"){
+				sec.deg.grp = as.numeric(sec.deg.grp)
+			}
+			
+			sec.pvalue = apply(sec.ab, 1, gene.aov, var1=sec.deg.grp)
+		} else {
+			if (length(deg.groups) == 1){
+				print("Abundance ANOVA with 1 variable")
+				
+				if (trt.group == "continuous"){
+					var1 = as.numeric(var1)
+				}
+				test.pvalue = apply(deg.ab, 1, gene.aov, var1=var1)
+			} else if ((length(deg.groups) == 2)&(interaction.flag == "no")){
+				print("Abundance ANOVA with 2 variables")
+
+				if (trt.group == "continuous"){
+					var1 = as.numeric(var1)
+				}
+
+				if (trt.group2 == "continuous"){
+					var2 = as.numeric(var2)
+				}
+				test.pvalue = apply(deg.ab, 1, gene.aov, var1=var1, var2=var2)
+			} else if ((length(deg.groups) == 2)&(interaction.flag == "model")){
+				print("Abundance ANOVA with 2 variables plus interaction")
+				var3 = as.factor(paste(var1,var2,sep=":"))
+
+				if (trt.group == "continuous"){
+					var1 = as.numeric(var1)
+				}
+
+				if (trt.group2 == "continuous"){
+					var2 = as.numeric(var2)
+				}
+				test.pvalue = apply(deg.ab, 1, gene.aov, var1=var3, var2=var1, var3=var2)
+			}
+		}#end else
 	} else{
-		stop("pvalue_method must be \"limma-ab\", \"limma-counts\", or \"metagenomeSeq\"")
+		stop("pvalue_method must be \"limma-ab\", \"limma-counts\",\"metagenomeSeq\", \"ANOVA-ab\", or \"lm-ab\"")
 	}
 } else{
 	test.pvalue = rep(1,times=length(assignments))
