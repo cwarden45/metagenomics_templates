@@ -4,7 +4,7 @@ import os
 import subprocess
 from Bio.Seq import Seq
 
-email = ""
+email = "cwarden@coh.org"
 threads = 1
 parameterFile = "parameters.txt"
 finishedSamples = ()
@@ -24,7 +24,7 @@ text = "#!/bin/bash\n"
 text = text + "#$ -M "+email+"\n"
 text = text + "#$ -m bea\n"
 text = text + "#$ -N fastQC16S\n"
-text = text + "#$ -q short.q\n"
+text = text + "#$ -q all.q\n"
 text = text + "#$ -pe shared "+str(threads)+"\n"
 text = text + "#$ -l vf=4G\n"
 text = text + "#$ -j yes\n"
@@ -48,4 +48,13 @@ for file in fileResults:
 			read1 = readsFolder + "/" + file
 			
 			text = "/net/isi-dcnl/ifs/user_data/Seq/FastQC/fastqc -o "+fastqcFolder+" " + read1 + "\n"
+			outHandle.write(text)
+			
+			text = "unzip "+fastqcFolder+"/"+sample+"_fastqc.zip -d "+fastqcFolder+"\n"
+			outHandle.write(text)
+
+			text = "rm "+fastqcFolder+"/"+sample+"_fastqc.zip\n";
+			outHandle.write(text)
+
+			text = "rm "+fastqcFolder+"/"+sample+"_fastqc.html\n";
 			outHandle.write(text)

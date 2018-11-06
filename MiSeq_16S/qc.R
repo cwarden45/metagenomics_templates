@@ -64,6 +64,61 @@ if(classifier == "BWA"){
 }
 dev.off()
 
+#plot per Group
+groupIDs = levels(sample.table$Group)
+
+for (groupID in groupIDs){
+	print(groupID)
+	donor.table = sample.table[sample.table$Group == groupID,]
+	
+	donor.userID = as.character(donor.table$userID)
+
+	if(nrow(donor.table) > 1){
+		donor.userID = as.character(donor.table$userID)
+		
+		donor.assignment = ab.table$Assignment
+		donor.ab.mat = ab.table[,match(donor.userID, names(ab.table))]
+		donor.ab.mean = apply(donor.ab.mat, 1, mean, na.rm = T)
+		donor.ab.mat= donor.ab.mat[order(donor.ab.mean, decreasing = TRUE),]
+		donor.ab.mat[is.na(donor.ab.mat)] = 0
+		donor.assignment = donor.assignment[order(donor.ab.mean, decreasing = TRUE)]
+		
+		donor.class.colors = rep("gray",times=length(donor.assignment))
+		for (i in 1:length(colored.assignments)){
+			donor.class.colors[donor.assignment == colored.assignments[i]] = top.colors[i]
+		}
+
+		png(paste(classifier,"_top_barplot_",groupID,".png",sep=""))
+		par(mfrow=c(1,2),mar=c(10,2,2,2),oma=c(4,2,2,2))
+		barplot(as.matrix(donor.ab.mat), names.arg=donor.userID, las=2,
+					col=donor.class.colors, ylim = c(0,100), main=groupID)
+
+		plot(0, 0, type='n', bty='n', xaxt='n', yaxt='n',xlab="",ylab="")
+		legend("left",as.character(colored.assignments),
+				col=top.colors[1:length(colored.assignments)], pch=15, cex=0.9, xpd=T, inset=-0.1)
+
+		dev.off()
+	}else{
+		donor.userID = as.character(donor.table$userID)
+		donor.ab = ab.table[,match(donor.userID, names(ab.table))]
+		names(donor.ab)=ab.table$Assignment
+		donor.ab = donor.ab[!is.na(donor.ab)&(donor.ab > 1)]
+		
+		pie.colors = rep("gray", length(donor.ab))
+		
+		for (i in 1:length(donor.ab)){
+			temp.genus = names(donor.ab)[i]
+			if (temp.genus %in% colored.assignments)
+				pie.colors[i]=top.colors[colored.assignments == temp.genus]
+		}
+		
+		png(paste(classifier,"_top_barplot_",groupID,".png",sep=""))
+		par(mar=c(2,7,2,10))
+		pie(donor.ab, col=pie.colors, main=donor.userID)
+		dev.off()
+	}
+}#end for for (groupID in groupIDs)
+
 for (group in plot.groups){
 	fixed.color.palatte = c("green","orange","purple","cyan","pink","maroon","yellow","grey","red","blue","black","darkgreen","thistle1","tan","orchid1",colors())
 

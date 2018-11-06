@@ -196,10 +196,6 @@ if classifier == "RDPclassifier":
 					
 					if (readLength >= minLength) & (readLength <= maxLength):
 						passCount += 1
-						
-						text = ">" + readName + "\n"
-						text = text + str(fastq.seq)+ "\n"
-						outHandle.write(text)
 
 						if max_reads == "no":
 							text = ">" + readName + "\n"

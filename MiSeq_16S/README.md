@@ -21,6 +21,8 @@ So, I will post an update when more specific guidance / suggestions can be provi
 
 ### Order to Run Scripts ###
 
+0) Optionally down-sample reads with `subsample_reads.py`
+
 1) `preprocess_RDPclassifier_or_BWA.py` or `preprocess_mothur.py`
 
 2) `merged_length_QC_stats.R` (one way to determine minimum and maximium merged length)
